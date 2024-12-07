@@ -1,0 +1,52 @@
+# This file is the main configuration file of this Minecraft plugin
+# In this file you will be able to modify all the messages that are sent when a player uses a command
+# This config uses color codes like §3, §a, §l,...
+#
+# How to use %variables% ?
+# -> You can only use them when the default message contains one.
+# What does this %variable% mean ?
+# - %player% = Player who ran the command
+# - %target% = Player that the commands targets
+# 
+# 
+# 
+# Note: This configuration file is still in development.
+system:
+  prefixes:
+    main: "§e(§6!§e) §r"
+    bans: "§e[§6Bans§e] §r"
+    error: "§4§lErreur !§r§c "
+    luckyBlocks: "§6[§eLuckyBlock§6] §r"
+    antiCheat: "§e[§6§lAnti§r§0-§4§lCheat§e] §4"
+  messages:
+    # In the four commands below the "main" prefix is added at the start of the message
+    noPermission: "§4Vous n'avez pas la permission d'utiliser cette commande !"
+    noPermissionArgument: "§4Vous n'avez pas la permission d'utiliser cette argument !"
+    playerNotFound: "§4Le joueur est hors-ligne ou n'existe pas !"
+    requireToBePlayerToExecuteCommand: "§4Vous devez etre un joueur pour utiliser cette commande !"
+    # In the command below the "error" preifx is added at the start of the message
+    error: "§4§lUne erreur s'est produite lors de l'éxécution de cette commande, §c§oconsultez la console pour obtenir plus de détails."
+    inDevCommand: "§4§lOups ! §r§6Commande en developpement"
+    inDevArgument: "§4§lOups ! §r§6Cet argument est en developpement"
+# Below you'll find the commands messages
+commands: 
+  messages:  
+    clearLag: "§c[§4ClearLag§c] §6Les items ont été suprimés !"
+    # All command below have the "main" prefix at the start of the message
+    test: "&6Tu as utilisé la commande &2/test§6 !"
+    fly:
+      enable: "§6Fly §2activé"
+      disable: "§6Fly §4déactivé"
+      enabledByPlayer: "§6Fly §2activé par §6%player%"
+      disabledByPlayer: "§6Fly §4désactivé par §6%player%"
+    feed:
+      feed: "§2Vous avez été §6§lrassasié§2 !"
+      fedByPlayer: "§2Vous avez été nourri par §6%player%§2 !"
+      fedTarget: "§2Vous avez nourri §6%target%§2 !"
+    heal:
+      heal: "§2Vous avez été §6heal§2 !"
+      healedByPlayer: 
+      healedTarget: 
+  prefixes:
+    #NOTE: the prefix below can use hexadecimal color codes
+    "#00fb21§lD#20f92a§li#3ff732§lr#5ff43b§le#7ff244§lc#9ef04c§lt#beee55§lL#ddeb5d§lo#fde966§lg §r§2 : §6"

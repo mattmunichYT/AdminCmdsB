@@ -1,0 +1,302 @@
+name: AdminCmdsB--MJEP
+version: 2.0
+author: mattmunich
+main: fr.mattmunich.monplugin.MonPlugin
+api-version: 1.21
+commands:
+  alert:
+    description: §6Commande pour faire un BroadCast (§cAdmin§4Cmd§6)
+    permission: command.alert
+    usage: /alert <message>
+    aliases: 
+    - bc
+    - broadcast
+  spawn:
+    description: §6Commande pour vous tp au spawn :)
+    usage: /spawn
+  vanish:
+    description: §6Commande pour se mettre en §5vanish §6(§2StaffCmd§6)
+    usage: /vanish <on/off/player>
+    aliases: 
+    - v
+  supervanish:
+    description: §6Commande pour se mettre en §b§osuper§5vanish §6(§cAdmin§4Cmd§6)
+    usage: /supervanish <on/off/player>
+    aliases: 
+    - superv
+    - svanish
+    - sv
+  fly:
+    description: §6Commande pour activer la fly (§2StaffCmd§6)
+    usage: /fly <on/off>
+  feed:
+    description: §6Commande pour se §5feed §6(§2StaffCmd§6)
+    usage: /feed [Player]
+  heal:
+    usage: /heal [Player]
+    description: §6Commande pour se §5heal §6(§2StaffCmd§6)
+  freeze:
+    description: §6Commande pour §5freeze§6 un joueur (§2StaffCmd§6)
+    usage: /freeze <player>
+  avertir:
+    description: §6Commande pour §5avertir§6 un joueur (§2StaffCmd§6)
+    usage: /avertir <public/discret> <player>
+    aliases:
+    - warn
+  tphere:
+    description: §6Commande pour tp un joueur à sa position (§2StaffCmd§6)
+    usage: /tphere <player>
+    permission: command.tphere
+  god:
+    description: §6Commande pour devenir §5invincible§6 (§2StaffCmd§6)
+    usage: /god [player]
+  sethome:
+    usage: /sethome <HomeName>
+    description: §6Commande pour §5définir§6 un §5home §6:)
+    aliases:
+    - seth
+  home:
+    usage: /home <HomeName>
+    description: §6Commande pour se §5téléporter §6à un §5home §6:)
+    aliases:
+    - h
+  delhome:
+    usage: /delhome <HomeName>
+    description: §6Commande pour §5supprimer §6un §5home§6 :)
+    aliases:
+    - delh
+  setspawn:
+    description: §6Commande pour définir le §5spawn §6du serveur (§cAdmin§4Cmd§6)
+    usage: /setspawn
+    permission: setspawn
+  staffchat:
+    usage: /staffchat <message>
+    description: §6Commande envoyer des messages dans le §5StaffChat§6 (§2StaffCmd§6)
+  grade:
+    description: §6Commande pour gérer les §5grades§6 (§cAdmin§4Cmd§6)
+    usage: /grade <player> <grade>
+    permission: command.grade
+  tempban:
+    usage: /tempban <player>  <time> <reason>
+    description: §6Commande pour §5bannir temporairement§6 un joueur (§2StaffCmd§6)
+  tempmute:
+    usage: /tempmute <player>  <time> <reason>
+    description: §6Commande pour §5mute temporairement§6 un joueur (§2StaffCmd§6)
+  ban:
+    usage: /ban <player> <reason>
+    description: §6Commande pour bannir un joueur (§2StaffCmd§6)
+  unban:
+    usage: /unban <player>
+    description: §6Commande pour §5débannir§6 un joueur (§2StaffCmd§6)
+  kick:
+    usage: /kick <player> <reason>
+    description: §6Command pour §5kick§6 un joueur du serveur (§2StaffCmd§6)
+  mute:
+    usage: /mute <player> [reason]
+    description: §6Commande pour §5mute§6 un joueur (§2StaffCmd§6)
+  unmute:
+    usage: /unmute <player>
+    description: §6Commande pour §5unmute§6 un joueur (§2StaffCmd§6)
+  ec:
+    usage: /ec
+    description: §6Commande pour ouvrir son §5EnderChest§6 :)
+    aliases:
+    - enderchest
+  cheatinv:
+    usage: /custominv
+    description: §6Commande pour ouvrir l'§5inventaire§6 custom
+    permission: command.cheatinv
+    aliases: 
+    - cinv
+    - cinventory
+  clearlag:
+    usage: /clearlag
+    description: §6Commande pour faire un §cClearLag§6 (§2StaffCmd§6)
+  admincmdsb:
+    usage: /admincmdsb <args>
+    description: §6Commande pour voir §2plein §6 de choses sur le §5plugin§6 :)
+  nightvision:
+    desctription: §6Commande pour §2obtenir l'§5effet NightVision §r§6(§2StaffCmd§6)
+    usage: /nv
+    aliases:
+    - nv
+  admingui:
+    description: §6Commande pour obtenir la §5boussole§6 de l'§4Admin§6§lGUI§r§6 ! (§cAdmin§4Cmd§6)
+    usage: /admingui
+    aliases:
+    - admininv
+  maintenance:
+    description: §6Commande pour activer/désactiver la §5maintenance§6 ! (§cAdmin§4Cmd§6)
+    usage: /maintenance [on/off]
+    permission: command.maintenance
+  nick:
+    description: §6Commande pour changer de §5pseudo§6 ! (§cAdmin§4Cmd§6)
+    usage: /nick <NickName/Player> [NickName]
+  unnick:
+    description: §6Commande pour remontrer votre §5vrai pseudo§6 ! (§cAdmin§4Cmd§6)
+    usage: /unnick
+  kickall:
+    usage: /kickall [reason]
+    description: §6Command pour §5kick tous les joueurs§6 du serveur ! (§cAdmin§4Cmd§6)
+    permission: command.kickall
+  chat:
+    description: §6Commande pour §5activer§6 ou §5désactiver §6l'envoi des §5messages §6dans le chat pour §5soi-même §6! §6(§cAdmin§4Cmd§6)
+    usage: /chat [on/off]
+  back:
+    description: §6Commande pour retourner à son §5point de mort §6! §r§e(§6PermCmd§e)§r
+    usage: /back
+  mutedchat:
+    description: §6Commande pour §5activer§6 ou §5désactiver §6les messages des §5joueurs mute§6 pour §5soi-même §6! (§cAdmin§4Cmd§6)
+    usage: /mutedchat [on/off]
+    aliases:
+    - mchat
+    - mutedc
+  warp:
+    description: §6Commande pour se §5téléporter à un warp§6 :)
+    usage: /warp <warpName>
+  setwarp:
+    description: §6Commande pour §5définir un warp ! §6(§cAdmin§4Cmd§6)
+    usage: /setwarp <warpName> [permission]
+  delwarp:
+    description: §6Commande pour §5suprimer un warp ! §6(§cAdmin§4Cmd§6)
+    usage: /delwarp <warpName>
+  sudo:
+    description: §6Commande pour forcer un §5joueur §6 à §5envoyer §6un §5message§6 dans le §5chat §6(§cAdmin§4Cmd§6)
+    usage: /sudo <Player> <Command/Message>
+  secondaryinventory:
+    description: §6Command pour utiliser un §5deuxième invetaire §6(§2StaffCmd§6)
+    usage: /secondaryinventory [on/off]
+    aliases:
+    - secinv
+    - secondinv
+    - secondaryinv
+    - secinventory
+  nomine:
+    description: §6Commande pour empêcher un joueur de §5miner §6(§cAdmin§4Cmd§6)
+    usage: /nomine <player>
+  speed:
+    description: §6Commande pour changer la vitesse de marche et de vol d'un joueur §6(§2StaffCmd§6)
+    usage: /speed <nombre/get> [player]
+  flyspeed:
+    description: §6Commande pour changer la vitesse de vol d'un joueur §6(§2StaffCmd§6)
+    usage: /flyspeed <nombre/get> [player]
+  walkspeed:
+    description: §6Commande pour changer la vitesse de marche d'un joueur §6(§2StaffCmd§6)
+    usage: /walkspeed <nombre/get> [player]
+  getpos:
+    description: §6Commande pour obtenir la postition d'un joueur §6(§2StaffCmd§6)
+    usage: /getpos [player]
+  setstandname:
+    description: §6Commande pour définir le nom d'un Armor Stand §2(Obligatoire pour reset le nom avec /grade) §6(§2StaffCmd§6)
+    usage: /setstandname <name/&AS.name#reset>
+    alisases:
+    - setasname
+    - setsname
+    - setarmorstandname
+  directlog:
+    description: §6Commande pour activer/désactiver le DirectLog §6(§cAdmin§4Cmd§6)
+    usage: /directlog [on/off]
+    aliases:
+    - dlog
+    - instalog
+  admininvsee:
+    usage: /admininvsee <player>
+    description: §6Commande pour ouvrir l'§5inventaire§6 d'un joueur (§2StaffCmd§6)
+  itemframe:
+    description: §6Commande pour obtenir une ItemFrame invisible §6(§bBuilderCmd§6)
+    usage: /itemframe [glow]
+    aliases:
+    - iframe
+    - invisibleframe
+    - invisibleiframe
+    - invisibleitemframe
+    - iitemframe
+  luckyblock:
+    description: §cCommande Inconnue ! §e§k||§6§l§k LuckyBlocks§r§e§k ||
+    usage: /help luckyblock
+    aliases:
+    - lb
+    - luckyb
+  event:
+    description: §6Commande pour planifier des événements sur le serveur §6(§cAdmin§4Cmd§6 & §2Players)
+    usage: /event <args/help>
+  bypassastp:
+    description: §6Commande pour §5activer§6 ou §5désactiver §6la §5téléportation §6en cas de §5clic§6 sur un ArmorStand §6! §6(§cAdmin§4Cmd§6)
+    usage: /bypassastp [on/off]
+    aliases:
+    - antiastp
+    - blockastp
+  noel:
+    description: §6Commande pour aller dans le monde de l'§5Évent de Noël§6 ! §6(§2StaffCmd§6 & §2Players)
+    usage: /noel
+    aliases:
+    - eventnoel
+    - tpnoel
+    - mondenoel
+  survie:
+    description: §6Commande pour aller dans le monde de la §5survie RP §6! §6(§2StaffCmd§6 & §eSRP Members)
+    usage: /noel
+    aliases:
+    - tpsurvie
+    - srptp
+    - mondesurvie
+    - survierp  
+  invsee:
+    description: §6Commande pour §5voir l'inventaire§6 d'un autre §5joueur§6 ! (§2StaffCmd§6)
+    usage: /invsee <Player>
+    aliases:
+    - inventorysee
+    - openinventory
+    - openinv
+  ecsee:
+    description: §6Commande pour §5voir l'§eEnder§dChest§6 d'un autre §5joueur§6 ! (§2StaffCmd§6)
+    usage: /ecsee <Player>
+    aliases:
+    - enderchestsee
+    - openenderchest
+    - openec
+    - endersee
+    - echestsee
+    - openechest
+  paques:
+    description: §6Commande pour aller dans le monde de l'§5Évent de Pâques§6 ! §6(§2StaffCmd§6 & §2Players)
+    usage: /paques
+    aliases:
+    - eventpaques
+    - tppaques
+    - mondepaques
+  fakejoin:
+    description: §6Commande pour envoyer un §5faux message §6de §5connection §6au serveur ! §6(§cAdmin§4Cmd§6)
+    usage: /fakejoin <Player> <Grade>
+    aliases:
+    - fakeconnect
+  fakeleave:
+    description: §6Commande pour envoyer un §5faux message §6de §5déconnection §6du serveur ! §6(§cAdmin§4Cmd§6)
+    usage: /fakeleave <Player> <Grade>
+    aliases:
+    - fakedisconnect
+  changeskin:
+    description: §6Commande pour §5changer§6 de §5skin§6 ! (§2StaffCmd§6)
+    usage: /changeskin <skinName> [target]
+  halloween:
+    description: §6Commande pour aller dans le monde de l'§5Évent de Halloween§6 ! §6(§2StaffCmd§6 & §2Players)
+    usage: /halloween
+    aliases:
+      - eventhalloween
+  gm:
+    description: §6Commande pour changer de §5GameMode §a§lrapidement§r§6 ! (§2StaffCmd§6)
+    usage: /gm <GameMode> [Player]
+  test:
+    description: TEST
+    usage: /test
+  civilisation:
+    description: §8§oComming soon...
+    usage: /civilisation
+  backup:
+    description: §6Forcer le serveur à faire une §5sauvegarde §6des mondes ! §3(§bBuilderCmd§3)
+  mutechat:
+    description: §6Commande pour §5désactiver §6le §5chat§6 ! §6(§cAdmin§4Cmd§6)
+    usage: /mutechat [on/off]
+    aliases:
+      - disablechat
+      - desactiverchat
