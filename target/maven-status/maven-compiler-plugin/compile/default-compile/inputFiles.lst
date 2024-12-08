@@ -35,6 +35,7 @@
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/eventscmd/EventsFreeze.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/HomeCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/FakeLeaveCommand.java
+/Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commandhelper/VersionChecker_Old.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/Tempban.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/GetPosCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/IFrameCommand.java

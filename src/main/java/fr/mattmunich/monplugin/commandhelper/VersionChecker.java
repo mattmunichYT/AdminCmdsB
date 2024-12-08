@@ -17,9 +17,9 @@ public class VersionChecker {
         Matcher matcher = pattern.matcher(Bukkit.getVersion());
         if (matcher.find()) {
             String version = matcher.group(0); // Get the matched version number
-            Bukkit.getConsoleSender().sendMessage("§a[AdminCmdsB] : Detected server version §2" + version);
+            Bukkit.getConsoleSender().sendMessage("§e[§6AdminCmdsB§e] : §aDetected server version §2" + version);
             try {
-                return Double.parseDouble(version.replace("1.",""));
+                return Double.parseDouble(version.replaceFirst("1.",""));
             } catch (NumberFormatException e) {
                 Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
                 Bukkit.getConsoleSender().sendMessage("§6§l[AdminCmdsB] : §4Couldn't get server version !");
