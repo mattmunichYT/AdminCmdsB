@@ -62,8 +62,7 @@ public class MonPlugin extends JavaPlugin {
 	//Version
 	public String version = "2.0";
 	//
-	VersionChecker versionChecker = new VersionChecker();
-	public int serverVersion = versionChecker.getVersion();
+	public double serverVersion = VersionChecker.getVersion();
 
 	//ArrayLists (contien aussi les grades)
 
@@ -209,20 +208,20 @@ public class MonPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-//		Bukkit.getConsoleSender().sendMessage("[AdminCmdsB] Detected server version : 1." + serverVersion);
-//
-//		if(serverVersion != 0 && serverVersion < 16) {
-//			Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
-//			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Your server version is :§61." + serverVersion);
-//			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4This version is not supported. Please use versions from 1.16.x to 1.20.x ");
-//			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Disabling plugin");
-//			Bukkit.getConsoleSender().sendMessage("§e------------------------------------------");
-//			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4La version de votre serveur est : §61." + serverVersion);
-//			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Cette version n'est pas supportée ! Merci d'utiliser une version de 1.16.x à 1.20.x");
-//			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Désactivation du plugin.");
-//			Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
-//			Bukkit.getPluginManager().disablePlugin(this);
-//		}
+		Bukkit.getConsoleSender().sendMessage("[AdminCmdsB] Detected server version : 1." + serverVersion);
+
+		if(serverVersion != 0 && serverVersion < 16) {
+			Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
+			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Your server version is :§61." + serverVersion);
+			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4This version is not supported. Please use versions from 1.16.x to 1.21.x ");
+			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Disabling plugin");
+			Bukkit.getConsoleSender().sendMessage("§e------------------------------------------");
+			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4La version de votre serveur est : §61." + serverVersion);
+			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Cette version n'est pas supportée ! Merci d'utiliser une version de 1.16.x à 1.21.x");
+			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Désactivation du plugin.");
+			Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
+			Bukkit.getPluginManager().disablePlugin(this);
+		}
 
 //		int pluginIdbStats = 16161;
 //		try {

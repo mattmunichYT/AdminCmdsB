@@ -29,18 +29,18 @@ public class SkinManager {
 	@SuppressWarnings("deprecated")
 	public void changeSkin(Player p, String nameOfTarget, boolean fromName) {
 
-//		if(main.serverVersion != 21) {
-//			p.sendMessage("§c---------------------------------------------------------------------------");
-//			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Your server version is :§61." + main.serverVersion);
-//			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4This feature is not available in this version.");
-//			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Please use 1.21.x for it to work");
-//			p.sendMessage("§e------------------------------------------");
-//			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4La version de votre serveur est : §61." + main.serverVersion);
-//			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Cette fonctionnalité n'est pas disponible dans cette version.");
-//			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Merci d'utiliser la version 1.21.x pour qu'elle fonctionne.");
-//			p.sendMessage("§c---------------------------------------------------------------------------");
-//			return;
-//		}
+		if(main.serverVersion != 21.3) {
+			p.sendMessage("§c---------------------------------------------------------------------------");
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Your server version is :§61." + main.serverVersion);
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4This feature is not available in this version.");
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Please use 1.21.3 for it to work");
+			p.sendMessage("§e------------------------------------------");
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4La version de votre serveur est : §61." + main.serverVersion);
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Cette fonctionnalité n'est pas disponible dans cette version.");
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Merci d'utiliser la version 1.21.3 pour qu'elle fonctionne.");
+			p.sendMessage("§c---------------------------------------------------------------------------");
+			return;
+		}
 
 
 		//PlayerTextures ttextures = null;
@@ -82,7 +82,7 @@ public class SkinManager {
 
 		//TODO change name
 
-		Bukkit.getConsoleSender().sendMessage("p.getPlayerProfile : " + p.getPlayerProfile().toString());
+//		Bukkit.getConsoleSender().sendMessage("p.getPlayerProfile : " + p.getPlayerProfile().toString());
 		p.sendMessage(main.getPrefix() + "§2Le skin a été changé au skin de §6" + nameOfTarget + "§2 ! §8§o(Visible seulement poiur les autres joueurs)");
 
 		Bukkit.getOnlinePlayers().forEach(all -> {
