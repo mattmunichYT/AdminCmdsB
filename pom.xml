@@ -77,14 +77,11 @@
       <dependency>
           <groupId>org.spigotmc</groupId>
           <artifactId>spigot</artifactId>
-          <version>1.21-R0.1-SNAPSHOT</version>
+          <version>1.21.3-R0.1-SNAPSHOT</version> <!-- <- HERE (change version)-->
+          <!-- TO UPDATE NMS, RUN BUILDTOOLS, AND CHANGE VERSION HERE -->
+          <!-- SEE https://www.spigotmc.org TO DOWNLOAD BUILDTOOLS -->
           <scope>provided</scope>
       </dependency>
-<!--      <dependency>-->
-<!--          <groupId>org.bstats</groupId>-->
-<!--          <artifactId>bstats-bukkit</artifactId>-->
-<!--          <version>3.0.2</version>-->
-<!--          <scope>compile</scope>-->
-<!--      </dependency>-->
+
   </dependencies>
 </project>

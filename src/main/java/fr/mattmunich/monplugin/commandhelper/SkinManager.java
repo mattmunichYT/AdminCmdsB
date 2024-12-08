@@ -8,7 +8,7 @@ import fr.mattmunich.monplugin.MonPlugin;
 import net.minecraft.server.network.PlayerConnection;
 import org.bukkit.Bukkit;
 
-import org.bukkit.craftbukkit.v1_21_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 
@@ -50,7 +50,7 @@ public class SkinManager {
 		}
 
 		GameProfile profile = ((CraftPlayer)p).getHandle().getBukkitEntity().getProfile();
-		PlayerConnection connection = ((CraftPlayer)p).getHandle().c;
+		PlayerConnection connection = ((CraftPlayer)p).getHandle().f;
 
 		String[] textures = getSkin(nameOfTarget);
 

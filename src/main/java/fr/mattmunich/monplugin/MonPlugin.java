@@ -18,6 +18,14 @@ import fr.mattmunich.monplugin.eventscmd.EventsFreeze;
 
 @SuppressWarnings({"unused", "SpellCheckingInspection", "DataFlowIssue"})
 public class MonPlugin extends JavaPlugin {
+	/*
+	* HOW TO INSTALL NMS:
+	* - GO TO https://www.spigotmc.org AND DOWNLOAD LATEST BUILDTOOLS
+	* - RUN BUILDTOOLS
+	* - WHEN DONE, GO TO pom.xml (in this project)
+	* - CHANGE VERSION TO THE BUILT VERSION (most likely the latest)
+	* */
+
 
 
 	public String hex(String message) {
