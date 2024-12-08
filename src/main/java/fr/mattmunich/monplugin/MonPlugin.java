@@ -208,7 +208,7 @@ public class MonPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		Bukkit.getConsoleSender().sendMessage("[AdminCmdsB] Detected server version : 1." + serverVersion);
+
 
 		if(serverVersion != 0 && serverVersion < 16) {
 			Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
@@ -221,6 +221,8 @@ public class MonPlugin extends JavaPlugin {
 			Bukkit.getConsoleSender().sendMessage("§e[§6Admin§cCmds§4B§e] : §4Désactivation du plugin.");
 			Bukkit.getConsoleSender().sendMessage("§c--------------------------------------------------------------------");
 			Bukkit.getPluginManager().disablePlugin(this);
+		} else if (serverVersion != 0){
+			Bukkit.getConsoleSender().sendMessage("§e[§6AdminCmdsB§e] §aDetected supported server version : §2§l1." + serverVersion);
 		}
 
 //		int pluginIdbStats = 16161;

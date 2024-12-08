@@ -83,7 +83,7 @@ public class SkinManager {
 		//TODO change name
 
 //		Bukkit.getConsoleSender().sendMessage("p.getPlayerProfile : " + p.getPlayerProfile().toString());
-		p.sendMessage(main.getPrefix() + "§2Le skin a été changé au skin de §6" + nameOfTarget + "§2 ! §8§o(Visible seulement poiur les autres joueurs)");
+		p.sendMessage(main.getPrefix() + "§2Le skin a été changé au skin de §6" + nameOfTarget + "§2 ! §8§o(Visible uniquement pour les autres joueurs)");
 
 		Bukkit.getOnlinePlayers().forEach(all -> {
 			all.showPlayer(main, p);
