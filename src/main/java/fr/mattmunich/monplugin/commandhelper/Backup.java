@@ -60,7 +60,7 @@ public class Backup {
                         long backupMillis = formatter.parse(backupName).getTime();
                         long difference = System.currentTimeMillis() - backupMillis;
 
-                        if (difference > 6912000) {
+                        if (difference > 432000000) {
                             try {
                                 org.apache.commons.io.FileUtils.forceDelete(backup);
                             } catch (IOException deleteEx) {

@@ -25,13 +25,13 @@ import net.md_5.bungee.api.ChatColor;
 @SuppressWarnings("unused")
 public class EventsCommand implements CommandExecutor, TabCompleter{
 
-	private MonPlugin main;
+	private final MonPlugin main;
 
-	private Events events;
+	private final Events events;
 
-	private Warp warp;
+	private final Warp warp;
 
-	private Grades grades;
+	private final Grades grades;
 
 	public EventsCommand(MonPlugin main, Events events, Grades grades, Warp warp) {
 		this.main = main;
@@ -50,43 +50,48 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 
 
 		if(args.length < 1) {
-			if(p instanceof Player) {
-				Player rp = (Player) p;
+			if(p instanceof Player rp) {
 
-				if(main.admin.contains(rp)) {
-					rp.sendMessage("§2----------- §6§l/event : Aide  §r§2-----------§r\n"
-							+ "§7- §2/event admin create <startDate-fromat:[dd/MM/yyyy-HH:mm]/now> <eventDuration> <eventName> <eventDescription>\n"
-							+ "§7- §2/event admin modify <startDate/duration/title/description/grade/warp>\n"
-							+ "§7- §2/event admin cancel <eventName>\n"
-							+ "§7- §2/event admin delete <eventName>\n"
-							+ "§7- §2/event admin\n"
-							+ "§7- §2/event list\n"
-							+ "§7- §2/event info\n"
-							+ "§7- §2/event help\n"
-							+ "§7- §2/event\n\n"
-							+ "§cSintax : /events <args>");
+                if(main.admin.contains(rp)) {
+					rp.sendMessage("""
+                            §2----------- §6§l/event : Aide  §r§2-----------§r
+                            §7- §2/event admin create <startDate-fromat:[dd/MM/yyyy-HH:mm]/now> <eventDuration> <eventName> <eventDescription>
+                            §7- §2/event admin modify <startDate/duration/title/description/grade/warp>
+                            §7- §2/event admin cancel <eventName>
+                            §7- §2/event admin delete <eventName>
+                            §7- §2/event admin
+                            §7- §2/event list
+                            §7- §2/event info
+                            §7- §2/event help
+                            §7- §2/event
+                            
+                            §cSintax : /events <args>""");
 					return true;
 				} else {
-					rp.sendMessage("§2----------- §6§l/events : Aide  §r§2-----------§r\n"
-							+ "§7- §2/event list\n"
-							+ "§7- §2/event info\n"
-							+ "§7- §2/event help\n"
-							+ "§7- §2/event\n\n"
-							+ "§cSintax : /events <args>");
+					rp.sendMessage("""
+                            §2----------- §6§l/events : Aide  §r§2-----------§r
+                            §7- §2/event list
+                            §7- §2/event info
+                            §7- §2/event help
+                            §7- §2/event
+                            
+                            §cSintax : /events <args>""");
 					return true;
 				}
 			} else {
-				p.sendMessage("§2----------- §6§l/event : Aide  §r§2-----------§r\n"
-						+ "§7- §2/event admin create <startDate-fromat:[dd/MM/yyyy-HH:mm]/now> <eventDuration> <eventName> <eventDescription>\n"
-						+ "§7- §2/event admin modify <startDate/duration/title/description/grade/warp>\n"
-						+ "§7- §2/event admin cancel <eventName>\n"
-						+ "§7- §2/event admin delete <eventName>\n"
-						+ "§7- §2/event admin\n"
-						+ "§7- §2/event list\n"
-						+ "§7- §2/event info\n"
-						+ "§7- §2/event help\n"
-						+ "§7- §2/event\n\n"
-						+ "§cSintax : /events <args>");
+				p.sendMessage("""
+                        §2----------- §6§l/event : Aide  §r§2-----------§r
+                        §7- §2/event admin create <startDate-fromat:[dd/MM/yyyy-HH:mm]/now> <eventDuration> <eventName> <eventDescription>
+                        §7- §2/event admin modify <startDate/duration/title/description/grade/warp>
+                        §7- §2/event admin cancel <eventName>
+                        §7- §2/event admin delete <eventName>
+                        §7- §2/event admin
+                        §7- §2/event list
+                        §7- §2/event info
+                        §7- §2/event help
+                        §7- §2/event
+                        
+                        §cSintax : /events <args>""");
 				return true;
 			}
 
@@ -101,13 +106,14 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 			}
 
 			if(args.length == 1) {
-				p.sendMessage("§2----------- §6§l/event §4§ladmin§a : Aide  §r§2-----------§r\n"
-						+ "§7- §2/event admin create <startDate-fromat:[dd/MM/yyyy-HH:mm]/now> <eventDuration> <eventName> <eventDescription>\n"
-						+ "§7- §2/event admin modify <start/duration/name/description(/grade/warp)> \n"
-						+ "§7- §2/event admin cancel <eventName>\n"
-						+ "§7- §2/event admin delete <eventName>\n"
-						+ "§7- §2/event admin\n"
-						+ "§cSintax : /event admin <create/modify/cancel/delete> <args>");
+				p.sendMessage("""
+                        §2----------- §6§l/event §4§ladmin§a : Aide  §r§2-----------§r
+                        §7- §2/event admin create <startDate-fromat:[dd/MM/yyyy-HH:mm]/now> <eventDuration> <eventName> <eventDescription>
+                        §7- §2/event admin modify <start/duration/name/description(/grade/warp)>\s
+                        §7- §2/event admin cancel <eventName>
+                        §7- §2/event admin delete <eventName>
+                        §7- §2/event admin
+                        §cSintax : /event admin <create/modify/cancel/delete> <args>""");
 				return true;
 			}
 
@@ -631,7 +637,7 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 
 		}
 	}
-	//TODO
+	//TODO fix all bugs in /events
 	//init all args variables
 	List<String> arguments = new ArrayList<>();
 	List<String> adminarguments = new ArrayList<>();

@@ -80,7 +80,7 @@ public class SkinManager {
 //		profile.update();
 //		Bukkit.getConsoleSender().sendMessage("profile after set textures after update : " + profile);
 
-		//TODO change name
+		//TODO change name when changing skin
 
 //		Bukkit.getConsoleSender().sendMessage("p.getPlayerProfile : " + p.getPlayerProfile().toString());
 		p.sendMessage(main.getPrefix() + "§2Le skin a été changé au skin de §6" + nameOfTarget + "§2 ! §8§o(Visible uniquement pour les autres joueurs)");
