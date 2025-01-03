@@ -12,7 +12,6 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 
 import fr.mattmunich.monplugin.MonPlugin;
-import fr.mattmunich.monplugin.commandhelper.ASData;
 
 public class SetStandNameCommand implements CommandExecutor {
 
@@ -74,21 +73,21 @@ public class SetStandNameCommand implements CommandExecutor {
 						p.sendMessage(main.getErrorPrefix() + "L'Armor Stand n'a pas d'UUID ! -> AS ignoré.");
 						return true;
 					}
-					ASData pdata = new ASData(stUUID);
-					asdetected = true;
-
-					if(name.equalsIgnoreCase("&AS.name#reset")) {
-						pdata.resetASName();
-						return true;
-					}
-					ChatColor.translateAlternateColorCodes('&', name);
-					try{
-						pdata.setASName(name);
-						allst.setCustomName(name);
-					} catch(Exception e) {
-						p.sendMessage(main.getPrefix() + "§4Merci d'entrer un nom valide !");
-						return true;
-					}
+//					ASData pdata = new ASData(stUUID);
+//					asdetected = true;
+//
+//					if(name.equalsIgnoreCase("&AS.name#reset")) {
+//						pdata.resetASName();
+//						return true;
+//					}
+//					ChatColor.translateAlternateColorCodes('&', name);
+//					try{
+//						pdata.setASName(name);
+//						allst.setCustomName(name);
+//					} catch(Exception e) {
+//						p.sendMessage(main.getPrefix() + "§4Merci d'entrer un nom valide !");
+//						return true;
+//					}
 
 					p.sendMessage(main.getPrefix() + "§2L'Armor Stand à proximité de vous a maintenant le nom §6" + name + "§2 !");
 					return true;

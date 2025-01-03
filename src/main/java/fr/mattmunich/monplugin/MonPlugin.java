@@ -176,6 +176,7 @@ public class MonPlugin extends JavaPlugin {
 
 	private Backup backup;
 
+	private ASData_OLD old_asdata;
 
 	//
 
@@ -193,11 +194,13 @@ public class MonPlugin extends JavaPlugin {
 		ban = new Ban(this);
 		events = new Events(this);
 		pdata = new PlayerData(this);
-		asdata = new ASData(this);
+		asdata = new ASData(this,this);
+		asdata.initConfig();
 		settings = new Settings(this);
 		invsee = new InvSeeCommand(this);
 		warp = new Warp(this, this, grades);
 		backup = new Backup(this);
+		old_asdata = new ASData_OLD(this);
 		warp.initConfig();
 		saveDefaultConfig();
 		events.initConfig();
@@ -241,11 +244,13 @@ public class MonPlugin extends JavaPlugin {
 		ban = new Ban(this);
 		events = new Events(this);
 		pdata = new PlayerData(this);
-		asdata = new ASData(this);
+		asdata = new ASData(this,this);
+		asdata.initConfig();
 		settings = new Settings(this);
 		invsee = new InvSeeCommand(this);
 		warp = new Warp(this, this, grades);
 		backup = new Backup(this);
+		old_asdata = new ASData_OLD(this);
 		warp.initConfig();
 		saveDefaultConfig();
 		events.initConfig();
@@ -327,6 +332,7 @@ public class MonPlugin extends JavaPlugin {
 		getCommand("civilisation").setExecutor(new CivilisationCommand(this));
 		getCommand("backup").setExecutor(new BackupCommand(this,backup));
 		getCommand("mutechat").setExecutor(new MuteChatCommand(this));
+		getCommand("armorstand").setExecutor(new ASCommand(this,asdata));
 		//End "Executor"
 
 		//TabCompleter
@@ -349,7 +355,7 @@ public class MonPlugin extends JavaPlugin {
 
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new EventsFreeze(this), this);
-		pm.registerEvents(new MonPluginListeners(grades, this, settings, invsee), this);
+		pm.registerEvents(new MonPluginListeners(grades, this, settings, invsee,asdata), this);
 		pm.registerEvents(new JoinListener(grades, this, ban, settings), this);
 		pm.registerEvents(new LoginListener(grades, this, ban, settings), this);
 		pm.registerEvents(new PlayerLoginEvent_TempBan(this, settings), this);

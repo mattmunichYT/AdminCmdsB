@@ -59,11 +59,15 @@ public class MonPluginListeners implements Listener {
 
 	private final InvSeeCommand invsee;
 
-	public MonPluginListeners(Grades grades, MonPlugin main, Settings settings, InvSeeCommand invsee) {
+	private final ASData asData;
+
+	public MonPluginListeners(Grades grades, MonPlugin main, Settings settings, InvSeeCommand invsee, ASData asData) {
 		this.grades = grades;
 		this.main = main;
 		this.settings = settings;
 		this.invsee = invsee;
+		this.asData=asData;
+
 	}
 
 	@EventHandler
@@ -567,8 +571,15 @@ public class MonPluginListeners implements Listener {
 				ArmorStand as = (ArmorStand) entity;
 				UUID uuid = as.getUniqueId();
 
-				ASData asData = new ASData(uuid);
-				String asName = asData.getASName();
+				if(asData.isRegistred(as)) {
+					asData.runActions(as,p);
+					return;
+				}
+
+
+
+				ASData_OLD asData = new ASData_OLD(uuid);
+				String asName = as.getName();
 
                 //noinspection ConstantValue
                 if (asName == null) {

@@ -41,7 +41,7 @@ public class IFrameCommand implements CommandExecutor {
 
 		if(args.length == 1) {
 			if(args[0].equalsIgnoreCase("glow") || args[0].equalsIgnoreCase("glowing")) {
-				p.chat("/give @s glow_item_frame{EntityTag:{Invisible:1b}}");
+				p.chat("/give @s glow_item_frame[minecraft:custom_name='{text:\"Invisible Item Frame\",italic=false}',entity_data={id:\"minecraft:item_frame\",Invisible:1b}]");
 				p.sendMessage(main.getPrefix() + "§2Vous avez reçu une §6Glow Item Frame §6invisible §2avec succès !");
 				return true;
 			} else {
@@ -49,7 +49,7 @@ public class IFrameCommand implements CommandExecutor {
 				return true;
 			}
 		}else if(args.length == 0) {
-			p.chat("/give @s item_frame{EntityTag:{Invisible:1b}}");
+			p.chat("/give @s item_frame[minecraft:custom_name='{text:\"Invisible Item Frame\",italic=false}',entity_data={id:\"minecraft:item_frame\",Invisible:1b}]");
 			p.sendMessage(main.getPrefix() + "§2Vous avez reçu une §6Item Frame §6invisible §2avec succès !");
 			return true;
 		} else {

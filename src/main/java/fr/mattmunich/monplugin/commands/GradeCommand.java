@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import com.google.common.collect.Lists;
 
 import fr.mattmunich.monplugin.MonPlugin;
-import fr.mattmunich.monplugin.commandhelper.ASData;
 import fr.mattmunich.monplugin.commandhelper.GradeList;
 import fr.mattmunich.monplugin.commandhelper.Grades;
 
@@ -83,149 +82,149 @@ public class GradeCommand implements CommandExecutor, TabCompleter {
 			return true;
 		}
 
-		if(args[0].equalsIgnoreCase("&AS.HERE")) {
-
-			boolean asdetected = false;
-
-			if(player instanceof Player) {
-
-				Player p = (Player) player;
-
-				for(ArmorStand allst : p.getWorld().getEntitiesByClass(ArmorStand.class)) {
-
-					if(allst == null) {
-						p.sendMessage(main.getErrorPrefix() + "Impossible de charger un ArmorStand ! -> AS ignoré.");
-						return true;
-					}
-
-					Location ploc = p.getLocation();
-
-					if(allst.getLocation().distance(ploc) < 1) {
-						String stUUID = allst.getUniqueId().toString();
-
-						if(stUUID == null) {
-							p.sendMessage(main.getErrorPrefix() + "L'Armor Stand n'a pas d'UUID ! -> AS ignoré.");
-							return true;
-						}
-
-						asdetected = true;
-
-						GradeList gradeList = null;
-
-						try {
-							gradeList = grades.getGradeById(Integer.parseInt(args[1]));
-						} catch(NumberFormatException nbe){
-							try {
-								gradeList = GradeList.valueOf(args[1].toUpperCase());
-							}catch(Exception e) {
-								p.sendMessage(main.getPrefix() + "§4Grade non trouvé !");
-								return true;
-							}
-						}
-
-						String oldPrefix = main.hex(grades.getASGrade(allst).getPrefix());
-						String oldSuffix = main.hex(grades.getASGrade(allst).getSuffix());
-						String oldName = grades.getASGrade(allst).getName();
-
-
-
-
-						ASData data = new ASData(allst.getUniqueId());
-
-						if(data.getASName() == null) {
-							p.sendMessage(main.getErrorPrefix() + "L'Armor Stand n'a pas de nom défini dans les fichiers. Merci de faire /setstandname <nomdel'AS> !");
-							return true;
-						}
-
-						String newName = main.hex(grades.getGradeById(gradeList.getId()).getPrefix()) + data.getASName() + main.hex(grades.getGradeById(gradeList.getId()).getSuffix());
-						allst.setCustomName(newName);
-						grades.chageRank(stUUID, gradeList);
-
-						grades.deleteAS(allst);
-						grades.loadAS(allst);
-
-
-
-//						if(allst.getCustomName() != null) {
-//							//Removing Prefixes of allst's Name
-//							Bukkit.getConsoleSender().sendMessage("replacing -- " + GradeList.ADMIN.getName());
+//		if(args[0].equalsIgnoreCase("&AS.HERE")) {
 //
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.ADMIN.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.ANIMATEUR.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.BUILDEUR.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.DECORATEUR.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.DESIGNER.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.ETE.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.GUIDE.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.HALLOWEEN.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.MEMBRE.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.MINIATEUR.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.MODO.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.NOEL.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.PAQUES.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.OWNER.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.PARTY.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.PVP.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.REDSTONIEN.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.SCENARISTE.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.SPORT.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.TEAM.getName(), ""));
-//							allst.setCustomName(allst.getCustomName().replace(GradeList.VIP.getName(), ""));
-//							allst.setCustomNameVisible(false);
-//							____________________________
-//	 						!! Removed bc no suffixes !!
-//	 						!! Removed bc no suffixes !!
-//	 						!! Removed bc no suffixes ||
-//							||                         \\
-//							||	||	  ||	|| 	|	    \\
-//							||	||	  ||		|	     \\
-//							||	||----||	||	|	      \\
-//							||	||	  ||	||		       \\
-//							||	||	  ||	||	|	        \\
-//							//						         \\
-//						   //						      	  \\
-//						  // Removing Suffixes of allst's Name||
-//						    allst.setCustomName(allst.getCustomName().replaceAll(GradeList.ADMIN.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.ANIMATEUR.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.BUILDEUR.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.DECORATEUR.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.DESIGNER.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.ETE.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.GUIDE.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.HALLOWEEN.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.MEMBRE.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.MINIATEUR.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.MODO.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.NOEL.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.PAQUES.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.OWNER.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.PARTY.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.PVP.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.REDSTONIEN.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.SCENARISTE.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.SPORT.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.TEAM.getSuffix(), ""));
-//							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.VIP.getSuffix(), ""));
-
-						allst.setCustomNameVisible(true);
-
-						p.sendMessage(main.getPrefix() + "§2Le §6grade§2 \"§6"+ gradeList.getName().toLowerCase() + "§2\" a été donné à §6l'Armor Stand à proximité de vous §2 avec succès !");
-						return true;
-					}
-				}
-
-				if(!asdetected) {
-					p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
-					return true;
-				} else {
-					return true;
-				}
-
-			} else {
-				player.sendMessage(main.getErrorPrefix() + "Vous devez être un joueur pour utiliser cet argument !");
-				return true;
-			}
-		}
+//			boolean asdetected = false;
+//
+//			if(player instanceof Player) {
+//
+//				Player p = (Player) player;
+//
+//				for(ArmorStand allst : p.getWorld().getEntitiesByClass(ArmorStand.class)) {
+//
+//					if(allst == null) {
+//						p.sendMessage(main.getErrorPrefix() + "Impossible de charger un ArmorStand ! -> AS ignoré.");
+//						return true;
+//					}
+//
+//					Location ploc = p.getLocation();
+//
+//					if(allst.getLocation().distance(ploc) < 1) {
+//						String stUUID = allst.getUniqueId().toString();
+//
+//						if(stUUID == null) {
+//							p.sendMessage(main.getErrorPrefix() + "L'Armor Stand n'a pas d'UUID ! -> AS ignoré.");
+//							return true;
+//						}
+//
+//						asdetected = true;
+//
+//						GradeList gradeList = null;
+//
+//						try {
+//							gradeList = grades.getGradeById(Integer.parseInt(args[1]));
+//						} catch(NumberFormatException nbe){
+//							try {
+//								gradeList = GradeList.valueOf(args[1].toUpperCase());
+//							}catch(Exception e) {
+//								p.sendMessage(main.getPrefix() + "§4Grade non trouvé !");
+//								return true;
+//							}
+//						}
+//
+//						String oldPrefix = main.hex(grades.getASGrade(allst).getPrefix());
+//						String oldSuffix = main.hex(grades.getASGrade(allst).getSuffix());
+//						String oldName = grades.getASGrade(allst).getName();
+//
+//
+//
+//
+//						ASData data = new ASData(allst.getUniqueId());
+//
+//						if(data.getASName() == null) {
+//							p.sendMessage(main.getErrorPrefix() + "L'Armor Stand n'a pas de nom défini dans les fichiers. Merci de faire /setstandname <nomdel'AS> !");
+//							return true;
+//						}
+//
+//						String newName = main.hex(grades.getGradeById(gradeList.getId()).getPrefix()) + data.getASName() + main.hex(grades.getGradeById(gradeList.getId()).getSuffix());
+//						allst.setCustomName(newName);
+//						grades.chageRank(stUUID, gradeList);
+//
+//						grades.deleteAS(allst);
+//						grades.loadAS(allst);
+//
+//
+//
+////						if(allst.getCustomName() != null) {
+////							//Removing Prefixes of allst's Name
+////							Bukkit.getConsoleSender().sendMessage("replacing -- " + GradeList.ADMIN.getName());
+////
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.ADMIN.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.ANIMATEUR.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.BUILDEUR.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.DECORATEUR.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.DESIGNER.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.ETE.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.GUIDE.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.HALLOWEEN.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.MEMBRE.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.MINIATEUR.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.MODO.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.NOEL.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.PAQUES.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.OWNER.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.PARTY.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.PVP.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.REDSTONIEN.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.SCENARISTE.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.SPORT.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.TEAM.getName(), ""));
+////							allst.setCustomName(allst.getCustomName().replace(GradeList.VIP.getName(), ""));
+////							allst.setCustomNameVisible(false);
+////							____________________________
+////	 						!! Removed bc no suffixes !!
+////	 						!! Removed bc no suffixes !!
+////	 						!! Removed bc no suffixes ||
+////							||                         \\
+////							||	||	  ||	|| 	|	    \\
+////							||	||	  ||		|	     \\
+////							||	||----||	||	|	      \\
+////							||	||	  ||	||		       \\
+////							||	||	  ||	||	|	        \\
+////							//						         \\
+////						   //						      	  \\
+////						  // Removing Suffixes of allst's Name||
+////						    allst.setCustomName(allst.getCustomName().replaceAll(GradeList.ADMIN.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.ANIMATEUR.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.BUILDEUR.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.DECORATEUR.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.DESIGNER.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.ETE.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.GUIDE.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.HALLOWEEN.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.MEMBRE.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.MINIATEUR.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.MODO.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.NOEL.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.PAQUES.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.OWNER.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.PARTY.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.PVP.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.REDSTONIEN.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.SCENARISTE.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.SPORT.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.TEAM.getSuffix(), ""));
+////							allst.setCustomName(allst.getCustomName().replaceAll(GradeList.VIP.getSuffix(), ""));
+//
+//						allst.setCustomNameVisible(true);
+//
+//						p.sendMessage(main.getPrefix() + "§2Le §6grade§2 \"§6"+ gradeList.getName().toLowerCase() + "§2\" a été donné à §6l'Armor Stand à proximité de vous §2 avec succès !");
+//						return true;
+//					}
+//				}
+//
+//				if(!asdetected) {
+//					p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
+//					return true;
+//				} else {
+//					return true;
+//				}
+//
+//			} else {
+//				player.sendMessage(main.getErrorPrefix() + "Vous devez être un joueur pour utiliser cet argument !");
+//				return true;
+//			}
+//		}
 
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 

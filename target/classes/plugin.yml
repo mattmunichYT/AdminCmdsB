@@ -300,3 +300,8 @@ commands:
     aliases:
       - disablechat
       - desactiverchat
+  armorstand:
+    description: §6Commande pour §5configurer §6un §5Armor Stand§6 ! §3(§bBuilderCmd§3)
+    usage: /armorstand <spawn/addaction/setname/unregister> [actionType/name] [action]
+    aliases:
+      - as

@@ -19,6 +19,7 @@
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commandhelper/Settings.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/AntiASTPCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/MonPlugin.java
+/Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commandhelper/ASData_OLD.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/UnMuteCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/TestCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/SetStandNameCommand.java
@@ -49,6 +50,7 @@
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/GameModeCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/WalkSpeedCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commandhelper/VersionChecker.java
+/Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/ASCommand.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commandhelper/Warp.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/commands/CommandKickAll.java
 /Users/mvernet/IdeaProjects/AdminCmdsB-MJEP/src/main/java/fr/mattmunich/monplugin/Utility.java
