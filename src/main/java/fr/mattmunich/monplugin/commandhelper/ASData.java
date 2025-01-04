@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -79,7 +80,6 @@ public final class ASData {
 		}
 
 		config.set("as." + uuid + ".name",name);
-		config.set("as." + uuid + ".actions",null);
 		saveConfig();
 	}
 
@@ -110,100 +110,103 @@ public final class ASData {
 
 	public void addCommandAction(ArmorStand as, String command) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return;
 		}
 		command = "!cmd" + command;
-		List<String> actions = config.getStringList("as." + uuid + "actions");
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(command);
-		config.set("as." + uuid + "actions", actions);
+		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 	}
 
 	public void addMessageAction(ArmorStand as, String message) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return;
 		}
 
-		List<String> actions = config.getStringList("as." + uuid + "actions");
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(message);
-		config.set("as." + uuid + "actions", actions);
+		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 	}
 
 	public boolean addTitleAction(ArmorStand as, String title, String subtitle) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return false;
 		}
 		String content = "!title;title=" + title + ";subtitle=" + subtitle + ";";
-		List<String> actions = config.getStringList("as." + uuid + "actions");
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(content);
-		config.set("as." + uuid + "actions", actions);
+		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 		return true;
 	}
 
 	public void addAction(ArmorStand as, String action) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return;
 		}
-		List<String> actions = config.getStringList("as." + uuid + "actions");
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(action);
-		config.set("as." + uuid + "actions", actions);
+		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 	}
 
 	public void addActionbarAction(ArmorStand as, String content) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return;
 		}
 		content = "!actionbar" + content;
-		List<String> actions = config.getStringList("as." + uuid + "actions");
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(content);
-		config.set("as." + uuid + "actions", actions);
+		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 	}
 
 	public void addTPAction(ArmorStand as, double x, double y, double z, World world) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return;
 		}
 
 		String content = "!tp;x=" + x + ";y=" + y + ";z=" + z + ";worldName=" + world.getName() + ";";
-		List<String> actions = config.getStringList("as." + uuid + "actions");
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(content);
-		config.set("as." + uuid + "actions", actions);
+		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 	}
 
 	public @Nullable List<String> getAction(ArmorStand as) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + "actions") == null) {
+		if(config.get("as." + uuid + ".actions") == null) {
 			return null;
 		}
 
-		return config.getStringList("as." + uuid + "actions");
+		return config.getStringList("as." + uuid + ".actions");
 	}
 
-	public boolean runActions(ArmorStand as, Player target) {
+	public void runActions(ArmorStand as, Player target) {
 		List<String> actions = getAction(as);
 		Player p = target;
 
 		if(actions == null) {
-			return false;
+			return;
 		}
 
 		try {
+			p.sendMessage("[DEBUG] ACTIONS COUNT = " + String.valueOf(actions.toArray().length));
 			for (String action : actions) {
 				if(action.startsWith("!cmd/")) {
+					p.sendMessage("[DEBUG] RUNNING CMD ACTION");
 					p.chat(action.replaceFirst("!cmd",""));
 					continue;
 				} else if (action.startsWith("!title")){
+					p.sendMessage("[DEBUG] RUNNING TITLE ACTION");
 					String[] parts = action.split(";");
 					String title = "";
 					String subtitle = "";
@@ -221,10 +224,12 @@ public final class ASData {
 					p.sendTitle(title,subtitle,20,60,20);
 					continue;
 				} else if (action.startsWith("!actionbar")) {
+					p.sendMessage("[DEBUG] RUNNING ACTIONBAR ACTION");
 					String message = action.replace("!actionbar","");
 					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder().append(main.hex(message)).build());
 					continue;
 				} else if (action.startsWith("!tp")) {
+					p.sendMessage("[DEBUG] RUNNING TP ACTION");
 					String[] parts = action.split(";");
 					double x = 0.0;
 					double y = 0.0;
@@ -245,20 +250,24 @@ public final class ASData {
 						}
 					}
 					World world = Bukkit.getWorld(worldName);
+					if(world==null) {
+						p.sendMessage("[DEBUG] world was null ; name was " + worldName);
+						world = p.getWorld();
+					}
+					p.sendMessage("[DEBUG] world = " + world.getName());
 					Location loc = new Location(world,x,y,z);
 					p.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
 				} else {
-					action.replace("<prefix>", main.getPrefix());
+					p.sendMessage("[DEBUG] RUNNING MSG ACTION");
+					action = action.replace("<prefix>", main.getPrefix());
 					action = main.hex(action);
 					p.sendMessage(action);
 					continue;
 				}
-				return false;
+				return;
 			}
-			return true;
 		} catch (Exception e) {
-			//TODO log error
-			return false;
+			Bukkit.getConsoleSender().sendMessage(main.prefix + "§4Couldn't run an action when clicking on armorstand : §r\n" + e + Arrays.toString(e.getStackTrace()).replace(",", ",\n"));
 		}
 	}
 

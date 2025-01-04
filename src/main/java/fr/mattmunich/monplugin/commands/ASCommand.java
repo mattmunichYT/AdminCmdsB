@@ -1,25 +1,22 @@
 package fr.mattmunich.monplugin.commands;
 
+import com.google.common.collect.Lists;
 import fr.mattmunich.monplugin.MonPlugin;
 import fr.mattmunich.monplugin.commandhelper.ASData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.BlockCommandSender;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 
+import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
-public class ASCommand implements CommandExecutor {
+public class ASCommand implements CommandExecutor, TabCompleter {
 
-    private MonPlugin main;
-    private ASData asData;
+    private final MonPlugin main;
+    private final ASData asData;
 
     public ASCommand(MonPlugin main, ASData asData) {
         this.main = main;
@@ -60,7 +57,7 @@ public class ASCommand implements CommandExecutor {
 //                    p.sendMessage(main.getErrorPrefix() + "Impossible de charger un ArmorStand ! -> AS ignoré.");
                     continue;
                 }
-                if(as.getLocation().distance(ploc) < 1) {
+                if(as.getLocation().distance(ploc) < 2) {
                     if(!asData.isRegistred(as)) {
                         asData.registerArmorStand(as);
                     }
@@ -100,19 +97,23 @@ public class ASCommand implements CommandExecutor {
 //                    p.sendMessage(main.getErrorPrefix() + "Impossible de charger un ArmorStand ! -> AS ignoré.");
                     continue;
                 }
-                if(as.getLocation().distance(ploc) < 1) {
+                if(as.getLocation().distance(ploc) < 2) {
                     if(!asData.isRegistred(as)) {
                         asData.registerArmorStand(as);
                     }
 
                     if (actionType.equalsIgnoreCase("message")) {
                         asData.addMessageAction(as,action);
+                        p.sendMessage(main.prefix + "§aL'action §6message§2 a été ajoutée avec §5le message \"" + main.hex(action) + "\"§2 !");
+                        return true;
                     } else if (actionType.equalsIgnoreCase("command")) {
                         if(!action.startsWith("/")) {
                             p.sendMessage(main.prefix + "§4Veuillez entrer une commande valide §c(avec le \"/\") §4!");
                             return true;
                         }
                         asData.addCommandAction(as,action);
+                        p.sendMessage(main.prefix + "§aL'action §6commande§2 a été ajoutée avec §5la commande \"" + action + "\"§2 !");
+                        return true;
                     } else if (actionType.equalsIgnoreCase("title")) {
                         if(args.length<4) {
                             p.sendMessage(main.prefix + "§cSintax : /armorstand addaction title §4§ltitle=§r§c<title> §4§lsubtitle=§r§c<subtitle>");
@@ -123,11 +124,15 @@ public class ASCommand implements CommandExecutor {
                             return true;
                         }
 
-                        action.replace("subtitle=",";subtitle=");
+                        action = action.replace("subtitle=",";subtitle=");
                         action = "!title;" + action + ";";
                         asData.addAction(as,action);
+                        p.sendMessage(main.prefix + "§aL'action §6title§2 a été ajoutée avec §5le " + main.hex(action.replace("=",":").replace(";","§\"5et le \"")).replace("title:","title:\"") + "\"§2 !");
+                        return true;
                     } else if (actionType.equalsIgnoreCase("actionbar")){
                         asData.addActionbarAction(as,action);
+                        p.sendMessage(main.prefix + "§aL'action §6Actionbar§2 a été ajoutée avec §5le message \"" + main.hex(action)  + "\"§2 !");
+                        return true;
                     } else if (actionType.equalsIgnoreCase("tp") || actionType.equalsIgnoreCase("teleport")) {
                         if(args.length==5) {
                             try {
@@ -136,6 +141,8 @@ public class ASCommand implements CommandExecutor {
                                 double z = Double.parseDouble(args[4]);
                                 World world = p.getWorld();
                                 asData.addTPAction(as, x, y, z, world);
+                                p.sendMessage(main.prefix + "§aL'action §6téléportation§2 a été ajoutée avec §5x:" + x + ", y:" + y + ", z:" + z + " et le monde: " + world.getName() + "§2 !");
+                                return true;
                             } catch (NumberFormatException e) {
                                 p.sendMessage(main.prefix + "§cSintax : /armorstand addaction tp <x> <y> <z> [world]");
                                 p.sendMessage(main.prefix + "§4Veuillez entrer des nombres valides !");
@@ -153,6 +160,8 @@ public class ASCommand implements CommandExecutor {
                                     return true;
                                 }
                                 asData.addTPAction(as, x, y, z, world);
+                                p.sendMessage(main.prefix + "§aL'action §6téléportation§2 a été ajoutée avec §5x:" + x + ", y:" + y + ", z:" + z + " et le monde: \"" + world.getName() + "\"§2 !");
+                                return true;
                             } catch (NumberFormatException e) {
                                 p.sendMessage(main.prefix + "§cSintax : /armorstand addaction tp <x> <y> <z> [world]");
                                 p.sendMessage(main.prefix + "§4Veuillez entrer des nombres valides !");
@@ -164,9 +173,6 @@ public class ASCommand implements CommandExecutor {
                         p.sendMessage(main.prefix + "§eLes types d'actions disponibles sont : §6message§e,§6 commande§e,§6title§e,§6 actionbar§e,§6 teleport");
                         return true;
                     }
-
-                    p.sendMessage(main.prefix + "§aL'action a été ajoutée !");
-                    return true;
                 }
             }
             p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
@@ -188,11 +194,10 @@ public class ASCommand implements CommandExecutor {
 
                 asData.changeName(as,name);
                 p.sendMessage(main.prefix + "§2Un Armor Stand a été spawn avec le nom §6" + name + "§2 !");
-                return true;
             } else {
                 p.sendMessage(main.prefix + "§2Un Armor Stand a été spawn !");
-                return true;
             }
+            return true;
         } else {
             p.sendMessage(main.prefix + "§cSintax : /armorstand <spawn/addaction/setname> [actionType/name] [actionParam.]");
             return true;
@@ -204,7 +209,7 @@ public class ASCommand implements CommandExecutor {
         //                   p.sendMessage(main.getErrorPrefix() + "Impossible de charger un ArmorStand ! -> AS ignoré.");
         //                   return true;
         //               }
-        //               if(allst.getLocation().distance(ploc) < 1) {
+        //               if(allst.getLocation().distance(ploc) < 2) {
         //                   asdetected = true;
         //                   asData.registerArmorStand(allst);
         //                   p.sendMessage(main.prefix + "§2L'ArmorStand a été");
@@ -214,5 +219,54 @@ public class ASCommand implements CommandExecutor {
         //            p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
         //            return true;
         //        } else
+    }
+    @Override
+    public List<String> onTabComplete(CommandSender s, Command cmd, String l, String[] args) {
+        List<String> tabComplete = Lists.newArrayList();
+
+        if(args.length == 1) {
+            tabComplete.add("addaction");
+            tabComplete.add("spawn");
+            tabComplete.add("setname");
+        }
+        if(args.length > 2 && args[0].equalsIgnoreCase("setname")) {
+            tabComplete.add("<name>");
+        }
+        if(args.length > 2 && args[0].equalsIgnoreCase("spawn")) {
+            tabComplete.add("[name]");
+        }
+        if(args.length == 2 && args[0].equalsIgnoreCase("addaction")) {
+            tabComplete.add("message");
+            tabComplete.add("command");
+            tabComplete.add("title");
+            tabComplete.add("actionbar");
+            tabComplete.add("teleport");
+        }
+        if(args.length > 2 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("message") ) {
+            tabComplete.add("<message>");
+        }
+        if(args.length > 2 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("command") ) {
+            tabComplete.add("<command>");
+        }
+        if(args.length > 2 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("title") ) {
+            tabComplete.add("title=<title> and subtitle=<subtitle>");
+        }
+        if(args.length > 2 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("actionbar") ) {
+            tabComplete.add("<actionbar>");
+        }
+        if(args.length == 3 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("teleport") ) {
+            tabComplete.add("<x>");
+        }
+        if(args.length == 4 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("teleport") ) {
+            tabComplete.add("<y>");
+        }
+        if(args.length == 5 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("teleport") ) {
+            tabComplete.add("<z>");
+        }
+        if(args.length == 6 && args[0].equalsIgnoreCase("addaction") && args[1].equalsIgnoreCase("teleport") ) {
+            tabComplete.add("[world]");
+        }
+
+        return tabComplete;
     }
 }
