@@ -199,14 +199,11 @@ public final class ASData {
 		}
 
 		try {
-			p.sendMessage("[DEBUG] ACTIONS COUNT = " + String.valueOf(actions.toArray().length));
 			for (String action : actions) {
 				if(action.startsWith("!cmd/")) {
-					p.sendMessage("[DEBUG] RUNNING CMD ACTION");
 					p.chat(action.replaceFirst("!cmd",""));
 					continue;
 				} else if (action.startsWith("!title")){
-					p.sendMessage("[DEBUG] RUNNING TITLE ACTION");
 					String[] parts = action.split(";");
 					String title = "";
 					String subtitle = "";
@@ -224,12 +221,10 @@ public final class ASData {
 					p.sendTitle(title,subtitle,20,60,20);
 					continue;
 				} else if (action.startsWith("!actionbar")) {
-					p.sendMessage("[DEBUG] RUNNING ACTIONBAR ACTION");
 					String message = action.replace("!actionbar","");
 					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder().append(main.hex(message)).build());
 					continue;
 				} else if (action.startsWith("!tp")) {
-					p.sendMessage("[DEBUG] RUNNING TP ACTION");
 					String[] parts = action.split(";");
 					double x = 0.0;
 					double y = 0.0;
@@ -251,14 +246,11 @@ public final class ASData {
 					}
 					World world = Bukkit.getWorld(worldName);
 					if(world==null) {
-						p.sendMessage("[DEBUG] world was null ; name was " + worldName);
 						world = p.getWorld();
 					}
-					p.sendMessage("[DEBUG] world = " + world.getName());
 					Location loc = new Location(world,x,y,z);
 					p.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
 				} else {
-					p.sendMessage("[DEBUG] RUNNING MSG ACTION");
 					action = action.replace("<prefix>", main.getPrefix());
 					action = main.hex(action);
 					p.sendMessage(action);
@@ -267,6 +259,7 @@ public final class ASData {
 				return;
 			}
 		} catch (Exception e) {
+			p.sendMessage(main.errorPrefix + "Une erreur s'est produite lors de l'éxécution d'une des actions.");
 			Bukkit.getConsoleSender().sendMessage(main.prefix + "§4Couldn't run an action when clicking on armorstand : §r\n" + e + Arrays.toString(e.getStackTrace()).replace(",", ",\n"));
 		}
 	}
