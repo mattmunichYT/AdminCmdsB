@@ -3,18 +3,13 @@ package fr.mattmunich.monplugin;
 import java.util.*;
 
 import fr.mattmunich.monplugin.commandhelper.*;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.*;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.sign.Side;
 import org.bukkit.command.BlockCommandSender;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -27,7 +22,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
@@ -41,8 +35,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.material.MaterialData;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -297,44 +289,120 @@ public class MonPluginListeners implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent pce) {
-		Player player = pce.getPlayer();
-		GradeList gradeList = grades.getPlayerGrade(player);
-		PlayerData data = new PlayerData(player.getUniqueId());
+		Player p = pce.getPlayer();
+		String message = pce.getMessage();
+        //SETTING UP MINIGAME ARMORSTAND
+		//p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] ");
+		if(main.settingUpMiniGameAS.containsKey(p)) {
+			ArmorStand as = main.settingUpMiniGameAS.get(p);
+			int stage = main.settingUpMiniGameAS_Stage.get(p);
+			if(stage == 0) {
+				if(message.equals("&")) {
+					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §4Setup annulé.");
+					p.sendTitle("§4Setup annulé","", 20, 100 ,20);
+					pce.setCancelled(true);
+					return;
+				}
+				asData.registerArmorStand(as);
+
+				asData.changeName(as,message);
+				as.setCustomName(main.hex(message));
+				as.setCustomNameVisible(true);
+				asData.addTitleAction(as,"§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + as.getName() + "§r§2 !");
+				p.sendTitle("§2Nom défini à ",main.hex(message), 20, 60 ,20);
+				p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] Le nom du mini-jeu a été défini à §5" + main.hex(message));
+				Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
+					p.sendTitle("§2Téléportez-vous au mini-jeu","§2§let entrez \"GO\" dans le tchat", 20, 100 ,20);
+					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Téléportez-vous au spawn mini-jeu et entrez \"GO\" dans le tchat lorsque vous y êtes.");
+					main.settingUpMiniGameAS_Stage.remove(p);
+					main.settingUpMiniGameAS_Stage.put(p, 1);
+				}, 60);
+				pce.setCancelled(true);
+				return;
+			} else if (stage==1) {
+				if(message.equalsIgnoreCase("GO")) {
+					Location loc = p.getLocation();
+					asData.addTPAction(as, loc.getX(), loc.getY(), loc.getZ(), loc.getWorld());
+					p.sendTitle("§2Le spawn du mini-jeu ","§2a été défini !", 20, 60 ,20);
+					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Le spawn du mini-jeu a été défini !");
+					Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
+						p.sendTitle("§2Ouvert§e/§4Fermé","§a§oLe mini-jeu est il ouvert au public ?", 20, 100 ,20);
+						p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Entrez \"ouvert\" ou \"oui\" pour §aouvert §2et \"fermé\" ou \"non\" pour §cfermé§2 !");
+						main.settingUpMiniGameAS_Stage.remove(p);
+						main.settingUpMiniGameAS_Stage.put(p, 2);
+					}, 60);
+					pce.setCancelled(true);
+					return;
+				}
+			}else if (stage==2) {
+				if(message.equalsIgnoreCase("fermé") || message.equalsIgnoreCase("ferme") || message.equalsIgnoreCase("non")) {
+					asData.addAction(as,"!minigame:closed");
+					p.sendTitle("§2Le mini-jeu est désormais","§c§lfermé", 20, 60 ,20);
+					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Le mini-jeu est désormais §c§lfermé§2 !");
+					Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
+						p.sendTitle("§aSetup terminé !","", 20, 100 ,20);
+						p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §aLe setup est terminé !");
+						p.teleport(as.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+						main.settingUpMiniGameAS_Stage.remove(p);
+						main.settingUpMiniGameAS.remove(p);
+					}, 60);
+					pce.setCancelled(true);
+					return;
+				} else if(message.equalsIgnoreCase("ouvert") || message.equalsIgnoreCase("oui")) {
+					asData.addAction(as,"!minigame:open");
+					p.sendTitle("§2Le mini-jeu est désormais","§a§louvert", 20, 60 ,20);
+					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Le mini-jeu est désormais §a§louvert§2 !");
+					Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
+						p.sendTitle("§aSetup terminé !","", 20, 100 ,20);
+						p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §aLe setup est terminé !");
+						p.teleport(as.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+						main.settingUpMiniGameAS_Stage.remove(p);
+						main.settingUpMiniGameAS.remove(p);
+					}, 60);
+					pce.setCancelled(true);
+					return;
+				}
+			}
+		}
+		//END SETTING UP MINIGAME ARMORSTAND
+		
+		GradeList gradeList = grades.getPlayerGrade(p);
+		PlayerData data = new PlayerData(p.getUniqueId());
 
 		if (!data.exist()) {
-			player.sendMessage(main.getErrorPrefix()
+			p.sendMessage(main.getErrorPrefix()
 					+ "Une erreur s'est produite lors de l'envoi du message ! Essayez de vous déconnecter et reconnecter au serveur.");
 			pce.setCancelled(true);
 			return;
 		}
 
-		if(main.chatMuted && !main.admin.contains(player)) {
+		if(main.chatMuted && !main.admin.contains(p)) {
 			pce.setCancelled(true);
-			player.sendMessage(main.getErrorPrefix() + "§cLe chat est désactivé !");
+			p.sendMessage(main.getErrorPrefix() + "§cLe chat est désactivé !");
 			return;
 		}
 
 		if (data.getTempmuteMilliseconds() <= System.currentTimeMillis()) {
 
 			data.setUnTempmuted();
-			main.mute.remove(player);
+			main.mute.remove(p);
 		}
 
 		if (data.isTempmuted()) {
 			pce.getPlayer()
 					.sendMessage(main.getPrefix() + "§4Vous êtes TempMute, vous ne pouvez pas parler dans le chat !");
 			pce.getPlayer()
-					.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName() + gradeList.getChatSeparator()
+					.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName() + gradeList.getChatSeparator()
 							+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 			for (Player all : Bukkit.getOnlinePlayers()) {
 				if (main.mutedChat.contains(all)) {
 					if (main.guides.contains(all)) {
-						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName()
+						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName()
 								+ gradeList.getChatSeparator()
 								+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 					}
 					if (main.staff.contains(all)) {
-						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName()
+						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName()
 								+ gradeList.getChatSeparator()
 								+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 					}
@@ -342,25 +410,25 @@ public class MonPluginListeners implements Listener {
 			}
 
 			Bukkit.getConsoleSender()
-					.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName() + gradeList.getChatSeparator()
+					.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName() + gradeList.getChatSeparator()
 							+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 
 			pce.setCancelled(true);
         } else if (data.isMuted()) {
 			pce.setCancelled(true);
-			player.sendMessage(
+			p.sendMessage(
 					main.getPrefix() + "§4Vous êtes mute, vous ne pouvez pas parler dans le chat principal !");
-			player.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName() + gradeList.getChatSeparator()
+			p.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName() + gradeList.getChatSeparator()
 					+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 			for (Player all : Bukkit.getOnlinePlayers()) {
 				if (main.mutedChat.contains(all)) {
 					if (main.guides.contains(all)) {
-						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName()
+						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName()
 								+ gradeList.getChatSeparator()
 								+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 					}
 					if (main.staff.contains(all)) {
-						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName()
+						all.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName()
 								+ gradeList.getChatSeparator()
 								+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 					}
@@ -368,44 +436,44 @@ public class MonPluginListeners implements Listener {
 			}
 
 			Bukkit.getConsoleSender()
-					.sendMessage("§e[§6MutedChat§e] §2--> §r" + player.getDisplayName() + gradeList.getChatSeparator()
+					.sendMessage("§e[§6MutedChat§e] §2--> §r" + p.getDisplayName() + gradeList.getChatSeparator()
 							+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 
 			pce.setCancelled(true);
-        } else if (main.nochat.contains(player)) {
+        } else if (main.nochat.contains(p)) {
 
-			player.sendMessage(main.getPrefix() + "§4Votre chat est désactivé entrez /chat pour le réactiver !");
+			p.sendMessage(main.getPrefix() + "§4Votre chat est désactivé entrez /chat pour le réactiver !");
 			pce.setCancelled(true);
 			pce.setCancelled(true);
 
-        } else if (main.schat.contains(player)) {
+        } else if (main.schat.contains(p)) {
 
 			for (Player all : Bukkit.getOnlinePlayers()) {
 				if (main.staff.contains(all)) {
-					all.sendMessage("§e[§2Staff§aChat§e] §2--> §r" + player.getDisplayName()
+					all.sendMessage("§e[§2Staff§aChat§e] §2--> §r" + p.getDisplayName()
 							+ gradeList.getChatSeparator() + ChatColor.translateAlternateColorCodes('&',
 									String.join(" ", main.hex(pce.getMessage()))));
 				}
 			}
-			Bukkit.getConsoleSender().sendMessage("§e[§2Staff§aChat§e] §2--> §r" + player.getDisplayName()
+			Bukkit.getConsoleSender().sendMessage("§e[§2Staff§aChat§e] §2--> §r" + p.getDisplayName()
 					+ gradeList.getChatSeparator()
 					+ ChatColor.translateAlternateColorCodes('&', String.join(" ", main.hex(pce.getMessage()))));
 
 			pce.setCancelled(true);
 
         } else {
-//			String msg = main.hex(player.getDisplayName() + gradeList.getChatSeparator() +  ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
+//			String msg = main.hex(p.getDisplayName() + gradeList.getChatSeparator() +  ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage())));
 //
 //			for(Player all : Bukkit.getOnlinePlayers()) {
 //				all.sendMessage(msg);
-//				player.sendMessage(main.getPrefix() + "§2Message envoyé à §6" + all.getName());
+//				p.sendMessage(main.getPrefix() + "§2Message envoyé à §6" + all.getName());
 //			}
 
-			pce.setFormat(main.hex(player.getDisplayName() + gradeList.getChatSeparator()
+			pce.setFormat(main.hex(p.getDisplayName() + gradeList.getChatSeparator()
 					+ ChatColor.translateAlternateColorCodes('&', String.join(" ", pce.getMessage()))));
 
 		}
-		// pce.setFormat(main.hex(player.getDisplayName() + gradeList.getChatSeparator()
+		// pce.setFormat(main.hex(p.getDisplayName() + gradeList.getChatSeparator()
 		// + ChatColor.translateAlternateColorCodes('&', String.join(" ",
 		// pce.getMessage()))));
 	}

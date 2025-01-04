@@ -16,10 +16,7 @@ import org.bukkit.plugin.Plugin;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 
 public final class ASData {
@@ -79,7 +76,12 @@ public final class ASData {
 			return;
 		}
 
+		List<String> actions = new ArrayList<>();
+		actions.add("!ignore-this");
+
 		config.set("as." + uuid + ".name",name);
+		config.set("as." + uuid + ".actions",null);
+		config.set("as." + uuid + ".actions",actions);
 		saveConfig();
 	}
 
@@ -132,17 +134,16 @@ public final class ASData {
 		saveConfig();
 	}
 
-	public boolean addTitleAction(ArmorStand as, String title, String subtitle) {
+	public void addTitleAction(ArmorStand as, String title, String subtitle) {
 		String uuid = as.getUniqueId().toString();
 		if(config.get("as." + uuid + ".actions") == null) {
-			return false;
+			return;
 		}
 		String content = "!title;title=" + title + ";subtitle=" + subtitle + ";";
 		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(content);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
-		return true;
 	}
 
 	public void addAction(ArmorStand as, String action) {
@@ -192,16 +193,20 @@ public final class ASData {
 
 	public void runActions(ArmorStand as, Player target) {
 		List<String> actions = getAction(as);
-		Player p = target;
 
-		if(actions == null) {
+        if(actions == null) {
 			return;
 		}
 
 		try {
+			if(actions.contains("!minigame:closed")) {
+				target.sendTitle("§4§l❌ Fermé", "§r§cLe mini-jeu §4" + as.getName() + "§c n'est pas ouvert au public.", 20, 60, 20);
+				target.sendMessage(main.getPrefix() + "§2Mini-jeu fermé/non trouvé !");
+				return;
+			}
 			for (String action : actions) {
 				if(action.startsWith("!cmd/")) {
-					p.chat(action.replaceFirst("!cmd",""));
+					target.chat(action.replaceFirst("!cmd",""));
 					continue;
 				} else if (action.startsWith("!title")){
 					String[] parts = action.split(";");
@@ -218,11 +223,11 @@ public final class ASData {
 					}
 					title = main.hex(title);
 					subtitle = main.hex(subtitle);
-					p.sendTitle(title,subtitle,20,60,20);
+					target.sendTitle(title,subtitle,20,60,20);
 					continue;
 				} else if (action.startsWith("!actionbar")) {
 					String message = action.replace("!actionbar","");
-					p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder().append(main.hex(message)).build());
+					target.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder().append(main.hex(message)).build());
 					continue;
 				} else if (action.startsWith("!tp")) {
 					String[] parts = action.split(";");
@@ -239,27 +244,29 @@ public final class ASData {
 							y = Double.parseDouble(part.substring(2));
 						} else if (part.startsWith("z=")) {
 							z = Double.parseDouble(part.substring(2));
-						} else if (part.startsWith("world=")) {
-							worldName = part.substring(6);
+						} else if (part.startsWith("worldName=")) {
+							worldName = part.substring(10);
 
 						}
 					}
 					World world = Bukkit.getWorld(worldName);
 					if(world==null) {
-						world = p.getWorld();
+						world = target.getWorld();
 					}
 					Location loc = new Location(world,x,y,z);
-					p.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+					target.teleport(loc, PlayerTeleportEvent.TeleportCause.PLUGIN);
+				} else if (action.equals("!ignore-this")) {
+					continue;
 				} else {
 					action = action.replace("<prefix>", main.getPrefix());
 					action = main.hex(action);
-					p.sendMessage(action);
+					target.sendMessage(action);
 					continue;
 				}
 				return;
 			}
 		} catch (Exception e) {
-			p.sendMessage(main.errorPrefix + "Une erreur s'est produite lors de l'éxécution d'une des actions.");
+			target.sendMessage(main.errorPrefix + "Une erreur s'est produite lors de l'éxécution d'une des actions.");
 			Bukkit.getConsoleSender().sendMessage(main.prefix + "§4Couldn't run an action when clicking on armorstand : §r\n" + e + Arrays.toString(e.getStackTrace()).replace(",", ",\n"));
 		}
 	}

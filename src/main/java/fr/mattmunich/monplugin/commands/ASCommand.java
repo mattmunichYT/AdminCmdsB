@@ -198,6 +198,23 @@ public class ASCommand implements CommandExecutor, TabCompleter {
                 p.sendMessage(main.prefix + "§2Un Armor Stand a été spawn !");
             }
             return true;
+        } else if (args[0].equalsIgnoreCase("setup-minigame")) {
+            Location ploc = p.getLocation();
+
+            for(ArmorStand as : p.getWorld().getEntitiesByClass(ArmorStand.class)) {
+                if (as == null) {
+                    continue;
+                }
+                if (as.getLocation().distance(ploc) < 1.5) {
+                    main.settingUpMiniGameAS.put(p,as);
+                    main.settingUpMiniGameAS_Stage.put(p,0);
+                    p.sendTitle("§2Envoyez le nom du mini-jeu","§2§ldans le tchat", 20, 60 ,20);
+                    p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Envoyez le nom du mini-jeu dans le tchat. §e§oEntrez §r§c&§e§o pour annuler.");
+                    return true;
+                }
+            }
+            p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
+            return true;
         } else {
             p.sendMessage(main.prefix + "§cSintax : /armorstand <spawn/addaction/setname> [actionType/name] [actionParam.]");
             return true;
@@ -228,6 +245,7 @@ public class ASCommand implements CommandExecutor, TabCompleter {
             tabComplete.add("addaction");
             tabComplete.add("spawn");
             tabComplete.add("setname");
+            tabComplete.add("setup-minigame");
         }
         if(args.length > 2 && args[0].equalsIgnoreCase("setname")) {
             tabComplete.add("<name>");
