@@ -112,11 +112,11 @@ public final class ASData {
 
 	public void addCommandAction(ArmorStand as, String command) {
 		String uuid = as.getUniqueId().toString();
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		if(config.get("as." + uuid + ".actions") == null) {
-			return;
+			actions=new ArrayList<>();
 		}
 		command = "!cmd" + command;
-		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(command);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
@@ -124,11 +124,11 @@ public final class ASData {
 
 	public void addMessageAction(ArmorStand as, String message) {
 		String uuid = as.getUniqueId().toString();
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		if(config.get("as." + uuid + ".actions") == null) {
-			return;
+			actions=new ArrayList<>();
 		}
 
-		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(message);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
@@ -136,11 +136,11 @@ public final class ASData {
 
 	public void addTitleAction(ArmorStand as, String title, String subtitle) {
 		String uuid = as.getUniqueId().toString();
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		if(config.get("as." + uuid + ".actions") == null) {
-			return;
+			actions=new ArrayList<>();
 		}
 		String content = "!title;title=" + title + ";subtitle=" + subtitle + ";";
-		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(content);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
@@ -148,10 +148,10 @@ public final class ASData {
 
 	public void addAction(ArmorStand as, String action) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + ".actions") == null) {
-			return;
-		}
 		List<String> actions = config.getStringList("as." + uuid + ".actions");
+		if(config.get("as." + uuid + ".actions") == null) {
+			actions=new ArrayList<>();
+		}
 		actions.add(action);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
@@ -159,11 +159,11 @@ public final class ASData {
 
 	public void addActionbarAction(ArmorStand as, String content) {
 		String uuid = as.getUniqueId().toString();
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		if(config.get("as." + uuid + ".actions") == null) {
-			return;
+			actions=new ArrayList<>();
 		}
 		content = "!actionbar" + content;
-		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		actions.add(content);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
@@ -171,24 +171,24 @@ public final class ASData {
 
 	public void addTPAction(ArmorStand as, double x, double y, double z, World world) {
 		String uuid = as.getUniqueId().toString();
-		if(config.get("as." + uuid + ".actions") == null) {
-			return;
-		}
-
-		String content = "!tp;x=" + x + ";y=" + y + ";z=" + z + ";worldName=" + world.getName() + ";";
 		List<String> actions = config.getStringList("as." + uuid + ".actions");
+		if(config.get("as." + uuid + ".actions") == null) {
+			actions=new ArrayList<>();
+		}
+		String content = "!tp;x=" + x + ";y=" + y + ";z=" + z + ";worldName=" + world.getName() + ";";
 		actions.add(content);
 		config.set("as." + uuid + ".actions", actions);
 		saveConfig();
 	}
 
-	public @Nullable List<String> getAction(ArmorStand as) {
+	public List<String> getAction(ArmorStand as) {
 		String uuid = as.getUniqueId().toString();
+		List<String> actions = config.getStringList("as." + uuid + ".actions");
 		if(config.get("as." + uuid + ".actions") == null) {
-			return null;
+			actions=new ArrayList<>();
 		}
 
-		return config.getStringList("as." + uuid + ".actions");
+		return actions;
 	}
 
 	public void runActions(ArmorStand as, Player target) {

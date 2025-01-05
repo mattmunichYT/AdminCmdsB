@@ -292,13 +292,13 @@ public class MonPluginListeners implements Listener {
 		Player p = pce.getPlayer();
 		String message = pce.getMessage();
         //SETTING UP MINIGAME ARMORSTAND
-		//p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] ");
+		//p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] ");
 		if(main.settingUpMiniGameAS.containsKey(p)) {
 			ArmorStand as = main.settingUpMiniGameAS.get(p);
 			int stage = main.settingUpMiniGameAS_Stage.get(p);
 			if(stage == 0) {
 				if(message.equals("&")) {
-					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §4Setup annulé.");
+					p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §4Setup annulé.");
 					p.sendTitle("§4Setup annulé","", 20, 100 ,20);
 					pce.setCancelled(true);
 					return;
@@ -310,39 +310,40 @@ public class MonPluginListeners implements Listener {
 				as.setCustomNameVisible(true);
 				asData.addTitleAction(as,"§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + as.getName() + "§r§2 !");
 				p.sendTitle("§2Nom défini à ",main.hex(message), 20, 60 ,20);
-				p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] Le nom du mini-jeu a été défini à §5" + main.hex(message));
+				p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] Le nom du mini-jeu a été défini à §5" + main.hex(message));
 				Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
 					p.sendTitle("§2Téléportez-vous au mini-jeu","§2§let entrez \"GO\" dans le tchat", 20, 100 ,20);
-					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Téléportez-vous au spawn mini-jeu et entrez \"GO\" dans le tchat lorsque vous y êtes.");
+					p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §2Téléportez-vous au spawn mini-jeu et entrez \"GO\" dans le tchat lorsque vous y êtes.");
 					main.settingUpMiniGameAS_Stage.remove(p);
 					main.settingUpMiniGameAS_Stage.put(p, 1);
 				}, 60);
 				pce.setCancelled(true);
 				return;
 			} else if (stage==1) {
-				if(message.equalsIgnoreCase("GO")) {
+				if(message.toLowerCase().contains("go") || message.toLowerCase().contains("set") || message.toLowerCase().contains("tp")) {
+					pce.setCancelled(true);
+					pce.setMessage("");
 					Location loc = p.getLocation();
 					asData.addTPAction(as, loc.getX(), loc.getY(), loc.getZ(), loc.getWorld());
 					p.sendTitle("§2Le spawn du mini-jeu ","§2a été défini !", 20, 60 ,20);
-					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Le spawn du mini-jeu a été défini !");
+					p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §2Le spawn du mini-jeu a été défini !");
+					Bukkit.getScheduler().callSyncMethod(main, () -> p.teleport(as.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN));
 					Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
 						p.sendTitle("§2Ouvert§e/§4Fermé","§a§oLe mini-jeu est il ouvert au public ?", 20, 100 ,20);
-						p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Entrez \"ouvert\" ou \"oui\" pour §aouvert §2et \"fermé\" ou \"non\" pour §cfermé§2 !");
+						p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §2Entrez \"ouvert\" ou \"oui\" pour §aouvert §2et \"fermé\" ou \"non\" pour §cfermé§2 !");
 						main.settingUpMiniGameAS_Stage.remove(p);
 						main.settingUpMiniGameAS_Stage.put(p, 2);
 					}, 60);
-					pce.setCancelled(true);
 					return;
 				}
 			}else if (stage==2) {
 				if(message.equalsIgnoreCase("fermé") || message.equalsIgnoreCase("ferme") || message.equalsIgnoreCase("non")) {
 					asData.addAction(as,"!minigame:closed");
 					p.sendTitle("§2Le mini-jeu est désormais","§c§lfermé", 20, 60 ,20);
-					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Le mini-jeu est désormais §c§lfermé§2 !");
+					p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §2Le mini-jeu est désormais §c§lfermé§2 !");
 					Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
-						p.sendTitle("§aSetup terminé !","", 20, 100 ,20);
-						p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §aLe setup est terminé !");
-						p.teleport(as.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+						p.sendTitle("§a✅ Setup terminé !","", 20, 100 ,20);
+						p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §aLe setup est terminé !");
 						main.settingUpMiniGameAS_Stage.remove(p);
 						main.settingUpMiniGameAS.remove(p);
 					}, 60);
@@ -351,11 +352,10 @@ public class MonPluginListeners implements Listener {
 				} else if(message.equalsIgnoreCase("ouvert") || message.equalsIgnoreCase("oui")) {
 					asData.addAction(as,"!minigame:open");
 					p.sendTitle("§2Le mini-jeu est désormais","§a§louvert", 20, 60 ,20);
-					p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §2Le mini-jeu est désormais §a§louvert§2 !");
+					p.sendMessage(main.prefix + "  -> §d[§5Setup-Mini-Jeu§d] §2Le mini-jeu est désormais §a§louvert§2 !");
 					Bukkit.getScheduler().runTaskLaterAsynchronously(main, () -> {
-						p.sendTitle("§aSetup terminé !","", 20, 100 ,20);
-						p.sendMessage(main.prefix + " - §d[§5Setup-Mini-Jeu§d] §aLe setup est terminé !");
-						p.teleport(as.getLocation(), PlayerTeleportEvent.TeleportCause.PLUGIN);
+						p.sendTitle("§a✅ Setup terminé !","", 20, 100 ,20);
+						p.sendMessage(main.prefix + " -> §d[§5Setup-Mini-Jeu§d] §aLe setup est terminé !");
 						main.settingUpMiniGameAS_Stage.remove(p);
 						main.settingUpMiniGameAS.remove(p);
 					}, 60);
@@ -365,7 +365,7 @@ public class MonPluginListeners implements Listener {
 			}
 		}
 		//END SETTING UP MINIGAME ARMORSTAND
-		
+
 		GradeList gradeList = grades.getPlayerGrade(p);
 		PlayerData data = new PlayerData(p.getUniqueId());
 
@@ -538,7 +538,7 @@ public class MonPluginListeners implements Listener {
 
 			/*
 			 * ItemStack wb = new ItemStack(Material.WATER_BUCKET);
-			 * 
+			 *
 			 * if(!Bukkit.getWorlds().contains(p.getName())) {
 			 * Bukkit.createWorld(WorldCreator.name(p.getName())); p.teleport(new
 			 * Location(Bukkit.getWorld(p.getName()), 0, 70, 0));
@@ -546,15 +546,15 @@ public class MonPluginListeners implements Listener {
 			 * if(Bukkit.getWorlds().contains(p.getName().toString())) { p.teleport(new
 			 * Location(Bukkit.getWorld(p.getName()), 0, 70, 0));
 			 * p.getInventory().addItem(wb); }
-			 * 
+			 *
 			 * ItemStack tnt = new ItemStack(Material.TNT); ItemMeta tM = tnt.getItemMeta();
-			 * 
+			 *
 			 * tM.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 1, true);
 			 * tM.addItemFlags(ItemFlag.HIDE_ENCHANTS); tM.setDisplayName("§4Place TNT");
 			 * tM.setLore(Arrays.asList("", "§5§oExplose quand on la pose"));
-			 * 
+			 *
 			 * tnt.setItemMeta(tM);
-			 * 
+			 *
 			 * ItemStack tnt = new ItemStack(Material.TNT, 1); ItemMeta meta = (SkullMeta)
 			 * tnt.getItemMeta(); meta.setDisplayName("§4Place TNT");
 			 * meta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 1, true);
