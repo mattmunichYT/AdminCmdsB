@@ -1,7 +1,7 @@
 name: AdminCmdsB--MJEP
 version: 2.0
 author: mattmunich
-main: fr.mattmunich.monplugin.MonPlugin
+main: fr.mattmunich.admincmdsb.Main
 api-version: 1.21
 commands:
   alert:
