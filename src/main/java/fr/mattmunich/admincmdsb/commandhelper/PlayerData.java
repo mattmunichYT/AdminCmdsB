@@ -3,6 +3,7 @@ package fr.mattmunich.admincmdsb.commandhelper;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -233,24 +234,12 @@ public final class PlayerData {
 	}
 
 	public String getStoredIP() {
-		return config.getString("ip").toString();
+		return config.getString("ip");
 	}
 
 	public boolean changedIP(String newIP) {
-
-		try {
-			config.get("ip").toString();
-		} catch (Exception e) {
+		if(config.get("ip") == null) {
 			return false;
-		}
-
-		if(config.get("ip").toString() == null) {
-			return false;
-		} else if(getStoredIP().equalsIgnoreCase(newIP) || getStoredIP() == newIP) {
-			return false;
-		} else {
-			return true;
-		}
+		} else return !Objects.equals(config.getString("ip"), newIP);
 	}
-
 }

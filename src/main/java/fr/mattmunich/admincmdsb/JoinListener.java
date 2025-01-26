@@ -202,7 +202,7 @@ public class JoinListener implements Listener{
 				main.mute.add(player);
 			}
 		} catch(Exception e) {
-			Bukkit.getConsoleSender().sendMessage("Hmm... Counld't get player's PlayerData so player may is bypassing mute !");
+			Bukkit.getConsoleSender().sendMessage("Hmm... Counld't get player's PlayerData so player might be bypassing mute !");
 		}
 
 

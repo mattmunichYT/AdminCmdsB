@@ -194,22 +194,23 @@ public class Main extends JavaPlugin {
 		super.onLoad();
 
 		grades = new Grades(this,this);
-		skinmanager = new SkinManager(this);
 		grades.initConfig();
+		skinmanager = new SkinManager(this);
 		ban = new Ban(this);
+		ban.initConfig();
 		events = new Events(this);
+		events.initConfig();
 		pdata = new PlayerData(this);
 		asdata = new ASData(this,this);
 		asdata.initConfig();
 		settings = new Settings(this);
+		settings.initConfig();
 		invsee = new InvSeeCommand(this);
 		warp = new Warp(this, this, grades);
+		warp.initConfig();
 		backup = new Backup(this);
 		old_asdata = new ASData_OLD(this);
-		warp.initConfig();
 		saveDefaultConfig();
-		events.initConfig();
-		ban.initConfig();
 	}
 
 	@SuppressWarnings("deprecation")
