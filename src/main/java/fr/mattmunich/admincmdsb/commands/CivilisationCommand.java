@@ -20,7 +20,7 @@ public class CivilisationCommand implements CommandExecutor {
         }
 
         Player p = (Player) s;
-        if (main.admin.contains(p) || p.getName().contains("Mixelcraft10")) {
+        if (main.admin.contains(p) || main.superstaff.contains(p)) {
             p.sendMessage(main.getPrefix() + "§2Transfert en cours...");
             p.transfer("91.197.6.162", 25624);
             return true;
