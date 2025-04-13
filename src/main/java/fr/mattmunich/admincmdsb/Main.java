@@ -327,6 +327,7 @@ public class Main extends JavaPlugin {
 		getCommand("noel").setExecutor(new NoelCommand(this));
 		getCommand("paques").setExecutor(new PaquesCommand(this));
 		getCommand("halloween").setExecutor(new HalloweenCommand(this));
+		getCommand("ete").setExecutor(new EventEteCommand(this));
 		getCommand("survie").setExecutor(new SRP_TPCommand(this));
 		getCommand("invsee").setExecutor(new ClassicInvSeeCommand(this, grades));
 		getCommand("ecsee").setExecutor(new EcSeeCommand(this, grades));

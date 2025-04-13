@@ -36,7 +36,6 @@ public class VanishClass implements CommandExecutor, Listener {
 	private final Settings settings;
 
 
-	@SuppressWarnings({"static-access" })
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -45,10 +44,9 @@ public class VanishClass implements CommandExecutor, Listener {
 			return true;
 		}
 
-		if(sender instanceof Player) {
-			Player player = (Player)sender;
+		if(sender instanceof Player player) {
 
-			if(!(main.superstaff.contains(player))) {
+            if(!(main.superstaff.contains(player))) {
 				player.sendMessage(main.noPermissionMsg);
 				return true;
 			}
@@ -176,7 +174,7 @@ public class VanishClass implements CommandExecutor, Listener {
 					return true;
 				}else if(args[0].equalsIgnoreCase("off")) {
 					if(!main.vanished.contains(player)) {
-						player.sendMessage("§e(§6!§e)§4 Vous n'êtes pas §6vanish");
+						player.sendMessage(main.getPrefix() + "Vous n'êtes pas §6vanish");
 
 						return true;
 					}
@@ -187,7 +185,7 @@ public class VanishClass implements CommandExecutor, Listener {
 						players.showPlayer(JavaPlugin.getPlugin(main.getClass()), player);
 					}
 
-					player.sendMessage("§e(§6!§e)§4 Vous n'êtes maintenant plus §6vanish");
+					player.sendMessage(main.getPrefix() + "Vous n'êtes maintenant plus §6vanish");
 
 					String tPrefix = main.hex(grades.getPlayerGrade(player).getPrefix());
 					String tSuffix = main.hex(grades.getPlayerGrade(player).getSuffix());

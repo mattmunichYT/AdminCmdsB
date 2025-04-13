@@ -8,7 +8,7 @@ import fr.mattmunich.admincmdsb.Main;
 import net.minecraft.server.network.PlayerConnection;
 import org.bukkit.Bukkit;
 
-import org.bukkit.craftbukkit.v1_21_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_21_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 
@@ -29,15 +29,15 @@ public class SkinManager {
 	@SuppressWarnings("deprecated")
 	public void changeSkin(Player p, String nameOfTarget, boolean fromName) {
 
-		if(main.serverVersion != 21.3) {
+		if(main.serverVersion != 21.4) {
 			p.sendMessage("§c---------------------------------------------------------------------------");
 			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Your server version is :§61." + main.serverVersion);
 			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4This feature is not available in this version.");
-			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Please use 1.21.3 for it to work");
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Please use 1.21.4 for it to work");
 			p.sendMessage("§e------------------------------------------");
 			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4La version de votre serveur est : §61." + main.serverVersion);
 			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Cette fonctionnalité n'est pas disponible dans cette version.");
-			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Merci d'utiliser la version 1.21.3 pour qu'elle fonctionne.");
+			p.sendMessage("§e[§6Admin§cCmds§4B§e] : §4Merci d'utiliser la version 1.21.4 pour qu'elle fonctionne.");
 			p.sendMessage("§c---------------------------------------------------------------------------");
 			return;
 		}

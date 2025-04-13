@@ -63,7 +63,7 @@ public class SRP_TPCommand implements CommandExecutor {
 		Player p = (Player) s;
 
 		if(!main.admin.contains(p)) {
-			p.sendMessage(main.errorPrefix + "Le Survie-RP n'est plus ouvert au public !\n§eConsultez le salon");
+			p.sendMessage(main.errorPrefix + "Le Survie-RP n'est plus ouvert au public !");
 			return true;
 		}
 

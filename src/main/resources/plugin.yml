@@ -305,3 +305,8 @@ commands:
     usage: /armorstand <spawn/addaction/setname/unregister> [actionType/name] [action]
     aliases:
       - as
+  ete:
+    description: §6Commande pour aller dans le monde de l'§5Évent de Été§6 ! §6(§2StaffCmd§6)
+    usage: /ete
+    aliases:
+      - eventete

@@ -215,6 +215,27 @@ public class ASCommand implements CommandExecutor, TabCompleter {
             }
             p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
             return true;
+        } else if (args[0].equalsIgnoreCase("remove")) {
+            if(args.length != 2) {
+                p.sendMessage(main.prefix + "§cVeuillez entrer §e/armorstand remove confirm§c, pour confirmer votre demande.");
+                return true;
+            }
+            if(!Objects.equals(args[1], "confirm")){
+                p.sendMessage(main.prefix + "§cVeuillez entrer §e/armorstand remove confirm§c, pour confirmer votre demande.");
+                return true;
+            }
+            for(ArmorStand as : p.getWorld().getEntitiesByClass(ArmorStand.class)) {
+                if (as == null) {
+                    continue;
+                }
+                if (as.getLocation().distance(p.getLocation()) < 1.5) {
+                    asData.unregister(as);
+                    p.sendMessage(main.prefix + "§aLes données de l'Armor Stand ont été supprimées, vous pouvez désormais le §e§ocasser§r§c si vous le désirez.");
+                    return true;
+                }
+            }
+            p.sendMessage(main.getPrefix() + "§4Aucun Armor Stand détecté proche de vous !");
+            return true;
         } else {
             p.sendMessage(main.prefix + "§cSintax : /armorstand <spawn/addaction/setname> [actionType/name] [actionParam.]");
             return true;
