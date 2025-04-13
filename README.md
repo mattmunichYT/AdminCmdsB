@@ -60,5 +60,7 @@
 
 **Download the plugin to discover more commands :)**
 </details>
-Download this plugin [here](https://modrinth.com/plugin/admincmdsb)
+
+### Download this plugin [here](https://modrinth.com/plugin/admincmdsb)
+
 Copyright © mattmunich 2025
