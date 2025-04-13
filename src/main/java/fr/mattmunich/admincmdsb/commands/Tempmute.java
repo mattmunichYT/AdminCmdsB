@@ -90,9 +90,14 @@ public class Tempmute implements CommandExecutor{
 			reason = reason.trim();
 
 
-			PlayerData data = new PlayerData(Utility.getUUIDFromName(args[0]));
+            PlayerData data = null;
+            try {
+                data = new PlayerData(Utility.getUUIDFromName(args[0]));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
-			if(!data.exist()) {
+            if(!data.exist()) {
 				p.sendMessage(main.getPrefix() + "§4Le joueur est introuvable !");
 				return true;
 			}

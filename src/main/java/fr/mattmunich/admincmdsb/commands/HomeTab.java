@@ -30,7 +30,7 @@ public class HomeTab implements TabCompleter {
 
 			Player p = (Player) s;
 
-			PlayerData data = new PlayerData(Utility.getUUIDFromName(p.getName()));
+			PlayerData data = new PlayerData(p);
 
 			try {
 				//p.sendMessage(main.getPrefix() + " HOMES LIST: " + data.getHomes();

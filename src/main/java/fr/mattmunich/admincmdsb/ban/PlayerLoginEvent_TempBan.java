@@ -29,7 +29,7 @@ public class PlayerLoginEvent_TempBan implements Listener{
 
 		Player p = e.getPlayer();
 
-		PlayerData data = new PlayerData(p.getUniqueId());
+		PlayerData data = new PlayerData(p);
 
 		if(!data.exist() || !data.isTempbanned()) {
 			return;

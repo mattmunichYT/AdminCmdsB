@@ -67,68 +67,74 @@ public class PlCommand implements CommandExecutor {
 			p.sendMessage("§e----------§6§lCrédits§e----------§r\n\n§2Développeur : §6mattmunich\n§r§4You§fTube §2: §6mattmunich\n§r§aPseudo §lMinecraft §r§2: §6mattmunich\n§r");
 			return true;
 		} else if(args[0].equalsIgnoreCase("settings")) {
+
 			if(p instanceof Player pr) {
                 if(grades.hasPowerInf(pr, 69)) {
 					pr.sendMessage(main.getPrefix() + "§4Vous n'avez pas la permission d'utiliser cet argument !");
 					return true;
 				}
-				if(!(args.length > 1)) {
-					pr.sendMessage("""
-                            §e--------------------§6§lRéglages§e--------------------§r
-                            §aRéglages disponibles :\
-                            
-                            §2coMsg, §6§oPermet d'activer/désactiver les message de (dé)connection§r\
-                            
-                            §2serverName, §6§oPermet de définir le nom du serveur§r\
-                            
-                            §2customTabList§6§oPermet de (dés)activer la liste des joueurs (Menu Tab) customisée§r\
-                            
-                            §2seeVanished, §6§oPermet aux joueurs ayant la permisson de voir ou pas les joueurs vanish§r\
-                            
-                            §2oldPVP, §6§oPermet d'activer/désactiver le PvP 1.8§r\
-                            
-                            §2TNTsEnabled, §6§oPermet d'activer/désactiver les TNTs§r\
-                            
-                            §2antiCheat, §6§oPermet d'activer/désactiver l'AntiCheats§r §b[§1Fonctionnalité §5§lExpérimentale§b]§r\
-                            
-                            §2advancedNameTags, §6§oPermet d'activer/désactiver les NameTags améliorés§r §b[§1Fonctionnalité §3§lBeta§b]§r\
-                            
-                            
-                            §7§oAucun autre réglage disponible en ce moment""");
-					return true;
+			}
 
-				}
+			if(!(args.length > 1)) {
+				p.sendMessage("""
+						§e--------------------§6§lRéglages§e--------------------§r
+						§aRéglages disponibles :\
+					\t
+						§2coMsg, §6§oPermet d'activer/désactiver les message de (dé)connection§r\
+					\t
+						§2serverName, §6§oPermet de définir le nom du serveur§r\
+					\t
+						§2customTabList§6§oPermet de (dés)activer la liste des joueurs (Menu Tab) customisée§r\
+					\t
+						§2seeVanished, §6§oPermet aux joueurs ayant la permisson de voir ou pas les joueurs vanish§r\
+					\t
+						§2oldPVP, §6§oPermet d'activer/désactiver le PvP 1.8§r\
+					\t
+						§2TNTsEnabled, §6§oPermet d'activer/désactiver les TNTs§r\
+					\t
+						§2backupsEnabled, §6§oPermet d'activer/désactiver le §5§osystème de backups (=sauvegardes) des mondes §6§oautomatique§r\
+					\t
+						§2antiCheat, §6§oPermet d'activer/désactiver l'AntiCheats§r §b[§1Fonctionnalité §5§lExpérimentale§b]§r\
+					\t
+						§2advancedNameTags, §6§oPermet d'activer/désactiver les NameTags améliorés§r §b[§1Fonctionnalité §3§lBeta§b]§r\
+					\t
+					\t
+						§7§oAucun autre réglage disponible en ce moment
+			\t""");
+				return true;
+
+			}
 			if(args[1].equalsIgnoreCase("coMsg")) {
 					if(args.length == 2 || args.length > 3) {
-						pr.sendMessage("§cSintax : /admincmds <args>");
+						p.sendMessage("§cSintax : /admincmds <args>");
 						return true;
 					}else if(args[2].equalsIgnoreCase("true")) {
 					if(settings.getCoMsg()) {
-						pr.sendMessage(main.getPrefix() + "§4Les messages de (dé)connection sont déjà activés !");
+						p.sendMessage(main.getPrefix() + "§4Les messages de (dé)connection sont déjà activés !");
 						return true;
 					}
 
 					settings.coMsgTrue();
-					pr.sendMessage(main.getPrefix() + "§2Les messages de (dé)connection ont été activés !");
+					p.sendMessage(main.getPrefix() + "§2Les messages de (dé)connection ont été activés !");
 					return true;
 				} else if(args[2].equalsIgnoreCase("false")) {
 					if(!settings.getCoMsg()) {
-						pr.sendMessage(main.getPrefix() + "§4Les messages de (dé)connection sont déjà désactivés !");
+						p.sendMessage(main.getPrefix() + "§4Les messages de (dé)connection sont déjà désactivés !");
 						return true;
 					}
 
 					settings.coMsgFalse();
-					pr.sendMessage(main.getPrefix() + "§2Les messages de (dé)connection ont été désactivés !");
+					p.sendMessage(main.getPrefix() + "§2Les messages de (dé)connection ont été désactivés !");
 					return true;
 				} else {
-					pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 							+ "\n§6true §4ou §6false");
 					return true;
 				}
 
 			} else if(args[1].equalsIgnoreCase("serverName")) {
 				if(args.length == 2) {
-					pr.sendMessage("§cSintax : /admincmds <args>");
+					p.sendMessage("§cSintax : /admincmds <args>");
 					return true;
 				}
 
@@ -144,135 +150,164 @@ public class PlCommand implements CommandExecutor {
 				serverName = new StringBuilder(ChatColor.translateAlternateColorCodes('&', String.join(" ", serverName.toString())));
 
 				settings.setServerName(serverName.toString());
-				pr.sendMessage(main.getPrefix() + "§2Le nom du serveur est maintenant \"§6" + serverName + "§2\" !");
+				p.sendMessage(main.getPrefix() + "§2Le nom du serveur est maintenant \"§6" + serverName + "§2\" !");
 				return true;
 
 			}
 
 			if(args[1].equalsIgnoreCase("customTabList")) {
 				if(args.length == 2 || args.length > 3) {
-					pr.sendMessage("§cSintax : /admincmds <args>");
+					p.sendMessage("§cSintax : /admincmds <args>");
 					return true;
 				}else if(args[2].equalsIgnoreCase("true")) {
 					if(settings.getCTabList()) {
-						pr.sendMessage(main.getPrefix() + "§4La liste des joueurs customisée est déjà activée !");
+						p.sendMessage(main.getPrefix() + "§4La liste des joueurs customisée est déjà activée !");
 						return true;
 					}
 
 					settings.CTabListTrue();
-					pr.sendMessage(main.getPrefix() + "§2La liste des joueurs customisée a été activée !");
+					p.sendMessage(main.getPrefix() + "§2La liste des joueurs customisée a été activée !");
 					return true;
 				} else if(args[2].equalsIgnoreCase("false")) {
 					if(!settings.getCTabList()) {
-						pr.sendMessage(main.getPrefix() + "§4La liste des joueurs customisée est déjà désactivée !");
+						p.sendMessage(main.getPrefix() + "§4La liste des joueurs customisée est déjà désactivée !");
 						return true;
 					}
 
 					settings.CTabListFalse();
-					pr.sendMessage(main.getPrefix() + "§2La liste des joueurs customisée a été désactivée !");
+					p.sendMessage(main.getPrefix() + "§2La liste des joueurs customisée a été désactivée !");
 					return true;
 				} else {
-					pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 							+ "\n§6true §4ou§6 false");
 					return true;
 				}
 			} else if(args[1].equalsIgnoreCase("seeVanished")) {
 				if(args.length == 2 || args.length > 3) {
-					pr.sendMessage("§cSintax : /admincmds <args>");
+					p.sendMessage("§cSintax : /admincmds <args>");
 					return true;
 				}else if(args[2].equalsIgnoreCase("true")) {
 					if(settings.getSeeVanished()) {
-						pr.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permisson peuvent déjà voir les joueurs vanish !");
+						p.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permisson peuvent déjà voir les joueurs vanish !");
 						return true;
 					}
 
 					settings.seeVanishedTrue();
-					pr.sendMessage(main.getPrefix() + "§2Les joueurs ayant la permisson peuvent maintenant voir les joueurs vanish !");
+					p.sendMessage(main.getPrefix() + "§2Les joueurs ayant la permisson peuvent maintenant voir les joueurs vanish !");
 					return true;
 				} else if(args[2].equalsIgnoreCase("false")) {
 					if(!settings.getSeeVanished()) {
-						pr.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permission ne peuvent déjà pas voir les joueurs vanish !");
+						p.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permission ne peuvent déjà pas voir les joueurs vanish !");
 						return true;
 					}
 
 					settings.seeVanishedFalse();
-					pr.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permisson ne peuvent plus voir les joueurs vanish !");
+					p.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permisson ne peuvent plus voir les joueurs vanish !");
 					return true;
 				} else {
-					pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 							+ "\n§6true§4 ou §6false");
 					return true;
 				}
 
 		} else if(args[1].equalsIgnoreCase("antiCheat")) {
 			if(args.length == 2 || args.length > 3) {
-				pr.sendMessage("§cSintax : /admincmds <args>");
+				p.sendMessage("§cSintax : /admincmds <args>");
 				return true;
 			}else if(args[2].equalsIgnoreCase("true")) {
 				if(settings.getAntiCheat()) {
-					pr.sendMessage(main.getPrefix() + "§4L'AntiCheat est déjà actif !");
+					p.sendMessage(main.getPrefix() + "§4L'AntiCheat est déjà actif !");
 					return true;
 				}
 
 				settings.antiCheatTrue();
-				pr.sendMessage(main.getPrefix() + "§2L'AntiCheat a été activé !");
+				p.sendMessage(main.getPrefix() + "§2L'AntiCheat a été activé !");
 				return true;
 			} else if(args[2].equalsIgnoreCase("false")) {
 				if(!settings.getAntiCheat()) {
-					pr.sendMessage(main.getPrefix() + "§4L'AntiCheat est déjà désactivé !");
+					p.sendMessage(main.getPrefix() + "§4L'AntiCheat est déjà désactivé !");
 					return true;
 				}
 
 				settings.antiCheatFalse();
-				pr.sendMessage(main.getPrefix() + "§4L'AntiCheat a été désactivé !");
+				p.sendMessage(main.getPrefix() + "§4L'AntiCheat a été désactivé !");
 				return true;
 			} else {
-				pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+				p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 						+ "\n§6true§4 ou §6false");
 				return true;
 			}
 
-	} else if(args[1].equalsIgnoreCase("oldPVP")) {
+		} else if(args[1].equalsIgnoreCase("oldPVP")) {
 			if(args.length == 2 || args.length > 3) {
-				pr.sendMessage("§cSintax : /admincmds <args>");
+				p.sendMessage("§cSintax : /admincmds <args>");
 				return true;
 			}else if(args[2].equalsIgnoreCase("true")) {
 				if(settings.getOldPVP()) {
-					pr.sendMessage(main.getPrefix() + "§4Le PvP 1.8 est déjà actif !");
+					p.sendMessage(main.getPrefix() + "§4Le PvP 1.8 est déjà actif !");
 					return true;
 				}
 
 				settings.setOldPVP(true);
-				pr.sendMessage(main.getPrefix() + "§2Le PvP 1.8 a été activé !");
+				p.sendMessage(main.getPrefix() + "§2Le PvP 1.8 a été activé !");
 				return true;
 			} else if(args[2].equalsIgnoreCase("false")) {
 				if(!settings.getOldPVP()) {
-					pr.sendMessage(main.getPrefix() + "§4Le PvP 1.8 est déjà inactif !!");
+					p.sendMessage(main.getPrefix() + "§4Le PvP 1.8 est déjà inactif !");
 					return true;
 				}
 
 				settings.setOldPVP(false);
-				pr.sendMessage(main.getPrefix() + "§2Le PvP 1.8 a été desactivé !");
+				p.sendMessage(main.getPrefix() + "§2Le PvP 1.8 a été desactivé !");
 				return true;
 			} else {
-				pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+				p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 						+ "\n§6true§4 ou §6false");
 				return true;
 			}
 
 
-		}else if(args[1].equalsIgnoreCase("advancedNameTags")) {
+		} else if(args[1].equalsIgnoreCase("enableBackups")) {
+				if(args.length == 2 || args.length > 3) {
+					p.sendMessage("§cSintax : /admincmds <args>");
+					return true;
+				}else if(args[2].equalsIgnoreCase("true")) {
+					if(settings.getBackupsEnabled()) {
+						p.sendMessage(main.getPrefix() + "§4Les backups sont déjà actifs !");
+						return true;
+					}
+
+					settings.setBackupsEnabled(true);
+					p.sendMessage(main.getPrefix() + "§2Les backups ont été activés !");
+					return true;
+				} else if(args[2].equalsIgnoreCase("false")) {
+					if(!settings.getBackupsEnabled()) {
+						p.sendMessage(main.getPrefix() + "§4Les backups sont déjà innactifs !");
+						return true;
+					}
+
+					settings.setBackupsEnabled(false);
+					p.sendMessage(main.getPrefix() + "§2Les backups on été désactivés !");
+					return true;
+				} else {
+					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+							+ "\n§6true§4 ou §6false");
+					return true;
+				}
+
+
+		} else if(args[1].equalsIgnoreCase("advancedNameTags")) {
 			if(args.length == 2 || args.length > 3) {
-				pr.sendMessage("§cSintax : /admincmds <args>");
+				p.sendMessage("§cSintax : /admincmds <args>");
 				return true;
 			} else if(args[2].equalsIgnoreCase("true")) {
 				if(settings.getAdvancedNameTags()) {
-					pr.sendMessage(main.getPrefix() + "§4Les NameTags améliorés sont déjà activés !");
+					p.sendMessage(main.getPrefix() + "§4Les NameTags améliorés sont déjà activés !");
 					return true;
 				}
 
 				settings.advancedNameTagsTrue();
-				pr.sendMessage(main.getPrefix() + "§2Activation des NameTags améliorés... (L'opération peut prendre un certain temps)");
+				p.sendMessage(main.getPrefix() + "§2Activation des NameTags améliorés... (L'opération peut pendre un certain temps)");
 				if(t == null) {
 				     t = score.registerNewTeam("nhide");
 				     t.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
@@ -338,16 +373,16 @@ public class PlCommand implements CommandExecutor {
 					stand.setAI(false);
 					stand.setMarker(true);
 				}
-				pr.sendMessage(main.getPrefix() + "§2Les NameTags améliorés sont maintenant activés !");
+				p.sendMessage(main.getPrefix() + "§2Les NameTags améliorés sont maintenant activés !");
 				return true;
 			} else if(args[2].equalsIgnoreCase("false")) {
 				if(!settings.getAdvancedNameTags()) {
-					pr.sendMessage(main.getPrefix() + "§4Les NameTags améliorés sont déjà désactivés !");
+					p.sendMessage(main.getPrefix() + "§4Les NameTags améliorés sont déjà désactivés !");
 					return true;
 				}
 
 				settings.advancedNameTagsFalse();
-				pr.sendMessage(main.getPrefix() + "§2Désactivation des NameTags améliorés... (L'opération peut prendre un certain temps)");
+				p.sendMessage(main.getPrefix() + "§2Désactivation des NameTags améliorés... (L'opération peut pendre un certain temps)");
 				for(Player player : Bukkit.getOnlinePlayers()) {
                     assert t != null;
                     t.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
@@ -372,382 +407,45 @@ public class PlCommand implements CommandExecutor {
 				}
                 assert t != null;
                 t.unregister();
-				pr.sendMessage(main.getPrefix() + "§2Les NameTags améliorés sont maintenant désactivés !");
+				p.sendMessage(main.getPrefix() + "§2Les NameTags améliorés sont maintenant désactivés !");
 				return true;
 			} else {
-				pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+				p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 						+ "\n§6true §4ou §6false");
 				return true;
 			}
 		} else if(args[1].equalsIgnoreCase("TNTsEnabled")) {
 			if(args.length == 2 || args.length > 3) {
-				pr.sendMessage("§cSintax : /admincmds <args>");
+				p.sendMessage("§cSintax : /admincmds <args>");
 				return true;
 			}else if(args[2].equalsIgnoreCase("true")) {
 				if(settings.getTNTsEnabled()) {
-					pr.sendMessage(main.getPrefix() + "§4Les TNTs sont déjà activées !");
+					p.sendMessage(main.getPrefix() + "§4Les TNTs sont déjà activées !");
 					return true;
 				}
 
 				settings.TNTsEnabledTrue();
-				pr.sendMessage(main.getPrefix() + "§2Les TNTs ont été activées !");
+				p.sendMessage(main.getPrefix() + "§2Les TNTs ont été activées !");
 				return true;
 			} else if(args[2].equalsIgnoreCase("false")) {
 				if(!settings.getTNTsEnabled()) {
-					pr.sendMessage(main.getPrefix() + "§4Les TNTs sont déjà désactivées !");
+					p.sendMessage(main.getPrefix() + "§4Les TNTs sont déjà désactivées !");
 					return true;
 				}
 
 				settings.TNTsEnabledFalse();
-				pr.sendMessage(main.getPrefix() + "§2Les TNTs ont été désactivées !");
+				p.sendMessage(main.getPrefix() + "§2Les TNTs ont été désactivées !");
 				return true;
 			} else {
-				pr.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
+				p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
 						+ "\n§6true §4ou §6false");
 				return true;
 			}
 
 		} else {
-			pr.sendMessage(main.getPrefix() + "§4Paramètre non trouvé ! Essayez plutôt :"
+			p.sendMessage(main.getPrefix() + "§4Paramètre non trouvé ! Essayez plutôt :"
 					+ "\n§6coMsg§4, §6serverName§4, §6customTabList§4, §6seeVanished§4, §6oldPVP§4, §6TNTsEnabled §4ou §6aAdvancedNameTagsTags");
 			return true;
-		}
-
-		} else {
-			if(!(args.length > 1)) {
-				p.sendMessage("""
-                        §e--------------------§6§lRéglages§e--------------------§r
-                        §aRéglages disponibles :\
-                        
-                        §2coMsg, §6§oPermet d'activer/désactiver les message de (dé)connection§r\
-                        
-                        §2serverName, §6§oPermet de définir le nom du serveur§r\
-                        
-                        §2customTabList, §6§oPermet de (dés)activer la liste des joueurs(Menu Tab) customisée§r\
-                        
-                        §2seeVanished, §6§oPermet aux joueurs ayant la permisson de voir ou pas les joueurs vanish§r\
-                        
-                        §2oldPVP, §6§oPermet d'activer/désactiver le PvP 1.8§r\
-                        
-                        §2TNTsEnabled, §6§oPermet d'activer/désactiver les TNTs§r\
-                        
-                        §2antiCheat, §6§oPermet d'activer/désactiver l'AntiCheats§r §b[§1Fonctionnalité §5§lExpérimentale§b]§r\
-                        
-                        §2advancedNameTags, §6§oPermet d'activer/désactiver les NameTags améliorés§r §b[§1Fonctionnalité §3§lBeta§b]§r\
-                        
-                        §2moreLogs, §8§oDisponible bientôt...\
-                        
-                        
-                        §7§oAucun autre réglage disponible en ce moment\s""");
-				return true;
-
-			}
-			if(args[1].equalsIgnoreCase("coMsg")) {
-					if(args.length == 2 || args.length > 3) {
-						p.sendMessage("§cSintax : /admincmds <args>");
-						return true;
-					}
-
-				if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getCoMsg()) {
-						p.sendMessage(main.getPrefix() + "§4Les messages de (dé)connection sont déjà activés !");
-						return true;
-					}
-
-					settings.coMsgTrue();
-					p.sendMessage(main.getPrefix() + "§2Les messages de (dé)connection ont été activés !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if(!settings.getCoMsg()) {
-						p.sendMessage(main.getPrefix() + "§4Les messages de (dé)connection sont déjà désactivés !");
-						return true;
-					}
-
-					settings.coMsgFalse();
-					p.sendMessage(main.getPrefix() + "§2Les messages de (dé)connection ont été désactivés !");
-					return true;
-				}
-
-			}else if(args[1].equalsIgnoreCase("serverName")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				}
-
-				StringBuilder serverName = new StringBuilder();
-
-				for(int i = 2; i < args.length; i++) {
-					serverName.append(args[i]).append(" ");
-
-				}
-
-
-				serverName = new StringBuilder(serverName.toString().trim());
-				serverName = new StringBuilder(ChatColor.translateAlternateColorCodes('&', String.join(" ", serverName.toString())));
-
-				settings.setServerName(serverName.toString());
-				p.sendMessage(main.getPrefix() + "§2Le nom du serveur est maintenant \"§6" + serverName + "§2\" !");
-				return true;
-
-			}else if(args[1].equalsIgnoreCase("customTabList")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				}
-				if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getCTabList()) {
-						p.sendMessage(main.getPrefix() + "§4La liste des joueurs customisée est déjà activée !");
-						return true;
-					}
-
-					settings.CTabListTrue();
-					p.sendMessage(main.getPrefix() + "§2La liste des joueurs customisée a été activée !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if(!settings.getCTabList()) {
-						p.sendMessage(main.getPrefix() + "§4La liste des joueurs customisée est déjà désactivée !");
-						return true;
-					}
-
-					settings.CTabListFalse();
-					p.sendMessage(main.getPrefix() + "§2La liste des joueurs customisée a été désactivée !");
-					return true;
-				}
-			}else if(args[1].equalsIgnoreCase("seeVanished")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				}
-
-				if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getSeeVanished()) {
-						p.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permisson peuvent déjà voir les joueurs vanish !");
-						return true;
-					}
-
-					settings.seeVanishedTrue();
-					p.sendMessage(main.getPrefix() + "§2Les joueurs ayant la permisson peuvent maintenant voir les joueurs vanish !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if(!settings.getSeeVanished()) {
-						p.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permission ne peuvent déjà pas voir les joueurs vanish !");
-						return true;
-					}
-
-					settings.seeVanishedFalse();
-					p.sendMessage(main.getPrefix() + "§4Les joueurs ayant la permisson ne peuvent plus voir les joueurs vanish !");
-					return true;
-				}
-
-			} else if(args[1].equalsIgnoreCase("antiCheat")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				}else if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getAntiCheat()) {
-						p.sendMessage(main.getPrefix() + "§4L'AntiCheat est déjà actif !");
-						return true;
-					}
-
-					settings.antiCheatTrue();
-					p.sendMessage(main.getPrefix() + "§2L'AntiCheat a été activé !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if(!settings.getAntiCheat()) {
-						p.sendMessage(main.getPrefix() + "§4L'AntiCheat est déjà désactivé !");
-						return true;
-					}
-
-					settings.antiCheatFalse();
-					p.sendMessage(main.getPrefix() + "§4L'AntiCheat a été désactivé !");
-					return true;
-				} else {
-					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
-							+ "\n§6true§4 ou §6false");
-					return true;
-				}
-
-		} else if(args[1].equalsIgnoreCase("oldPVP")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				}else if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getOldPVP()) {
-						p.sendMessage(main.getPrefix() + "§4Le PvP 1.8 est déjà actif !");
-						return true;
-					}
-
-					settings.setOldPVP(true);
-					p.sendMessage(main.getPrefix() + "§2Le PvP 1.8 a été activé !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if(!settings.getOldPVP()) {
-						p.sendMessage(main.getPrefix() + "§4Le PvP 1.8 est déjà inactif !!");
-						return true;
-					}
-
-					settings.setOldPVP(false);
-					p.sendMessage(main.getPrefix() + "§2Le PvP 1.8 a été desactivé !");
-					return true;
-				} else {
-					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
-							+ "\n§6true§4 ou §6false");
-					return true;
-				}
-
-
-			}else if(args[1].equalsIgnoreCase("moreLogs")){
-				p.sendMessage(main.InDevArgMsg);
-				return true;
-
-			}else if(args[1].equalsIgnoreCase("advancedNameTags")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				} else if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getAdvancedNameTags()) {
-						p.sendMessage(main.getPrefix() + "§4Les NameTags améliorés sont déjà activés !");
-						return true;
-					}
-
-					settings.advancedNameTagsTrue();
-					p.sendMessage(main.getPrefix() + "§2Activation des NameTags améliorés... (L'opération peut prendre un certain temps)");
-					if(t == null) {
-					    t = score.registerNewTeam("nhide");
-					    t.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
-					    t.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-					    t.setAllowFriendlyFire(true);
-					}
-
-					for(Player player : Bukkit.getOnlinePlayers()) {
-
-						t.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
-						t.addEntry(player.getName());
-
-						Location asloc = player.getLocation().add(0, 1.5, 0);
-
-						//Creating stand1
-						ArmorStand stand1 = (ArmorStand) Objects.requireNonNull(asloc.getWorld()).spawnEntity(asloc, EntityType.ARMOR_STAND);
-
-						stand1.setCustomNameVisible(false);
-						stand1.setInvulnerable(true);
-						stand1.setCanPickupItems(false);
-						stand1.setCollidable(false);
-						stand1.setVisualFire(false);
-						stand1.addScoreboardTag(player.getName() + "CODEHA@#*2");
-						stand1.setInvisible(true);
-						stand1.addEquipmentLock(EquipmentSlot.HEAD, LockType.ADDING_OR_CHANGING);
-						stand1.addEquipmentLock(EquipmentSlot.CHEST, LockType.ADDING_OR_CHANGING);
-						stand1.addEquipmentLock(EquipmentSlot.LEGS, LockType.ADDING_OR_CHANGING);
-						stand1.addEquipmentLock(EquipmentSlot.FEET, LockType.ADDING_OR_CHANGING);
-						stand1.setArrowsInBody(0);
-						stand1.setSilent(true);
-						stand1.setGravity(false);
-						stand1.setRemoveWhenFarAway(false);
-						stand1.setPersistent(true);
-						player.addPassenger(stand1);
-						stand1.setAI(false);
-						stand1.setMarker(true);
-						stand1.setBasePlate(false);
-
-
-						//Creating stand
-						ArmorStand stand = (ArmorStand) asloc.getWorld().spawnEntity(asloc, EntityType.ARMOR_STAND);
-
-						stand.setCustomName(main.hex(player.getDisplayName()));
-						stand.setCustomNameVisible(true);
-						//stand.setSmall(true);
-						stand.setInvulnerable(true);
-						stand.setCanPickupItems(false);
-						stand.setCollidable(false);
-						stand.setVisualFire(false);
-						stand.addScoreboardTag(player.getName());
-						stand.setVisible(false);
-						stand.setInvisible(true);
-						stand.addEquipmentLock(EquipmentSlot.HEAD, LockType.ADDING_OR_CHANGING);
-						stand.addEquipmentLock(EquipmentSlot.CHEST, LockType.ADDING_OR_CHANGING);
-						stand.addEquipmentLock(EquipmentSlot.LEGS, LockType.ADDING_OR_CHANGING);
-						stand.addEquipmentLock(EquipmentSlot.FEET, LockType.ADDING_OR_CHANGING);
-						stand.setArrowsInBody(0);
-						stand.setBasePlate(false);
-						stand.setGravity(false);
-						stand.setRemoveWhenFarAway(false);
-						stand.setPersistent(true);
-						stand1.addPassenger(stand);
-						stand.setAI(false);
-						stand.setMarker(true);
-					}
-					p.sendMessage(main.getPrefix() + "§2Les NameTags améliorés sont maintenant activés !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if (!settings.getAdvancedNameTags()) {
-						p.sendMessage(main.getPrefix() + "§4Les NameTags améliorés sont déjà désactivés !");
-						return true;
-					}
-
-					settings.advancedNameTagsFalse();
-					p.sendMessage(main.getPrefix() + "§2Désactivation des NameTags améliorés... (L'opération peut prendre un certain temps)");
-					for (Player player : Bukkit.getOnlinePlayers()) {
-						assert t != null;
-						t.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.NEVER);
-						t.removeEntry(player.getName());
-
-						for (ArmorStand allst : player.getWorld().getEntitiesByClass(ArmorStand.class)) {
-							if (allst.getScoreboardTags().contains(player.getName() + "CODEHA@#*2")) {
-								allst.leaveVehicle();
-								allst.setInvulnerable(false);
-								allst.setHealth(0);
-								allst.damage(1000);
-							}
-						}
-						for (ArmorStand allst : player.getWorld().getEntitiesByClass(ArmorStand.class)) {
-							if (allst.getScoreboardTags().contains(player.getName() + "CODEHA@#*2")) {
-								allst.leaveVehicle();
-								allst.setInvulnerable(false);
-								allst.setHealth(0);
-								allst.damage(1000);
-							}
-						}
-					}
-					assert t != null;
-					t.unregister();
-					p.sendMessage(main.getPrefix() + "§2Les NameTags améliorés sont maintenant désactivés !");
-					return true;
-				}
-			} else if(args[1].equalsIgnoreCase("TNTsEnabled")) {
-				if(args.length == 2 || args.length > 3) {
-					p.sendMessage("§cSintax : /admincmds <args>");
-					return true;
-				}else if(args[2].equalsIgnoreCase("true")) {
-					if(settings.getTNTsEnabled()) {
-						p.sendMessage(main.getPrefix() + "§4Les TNTs sont déjà activées !");
-						return true;
-					}
-
-					settings.TNTsEnabledTrue();
-					p.sendMessage(main.getPrefix() + "§2Les TNTs ont été activées !");
-					return true;
-				} else if(args[2].equalsIgnoreCase("false")) {
-					if(!settings.getTNTsEnabled()) {
-						p.sendMessage(main.getPrefix() + "§4Les TNTs sont déjà désactivées !");
-						return true;
-					}
-
-					settings.TNTsEnabledFalse();
-					p.sendMessage(main.getPrefix() + "§2Les TNTs ont été désactivées !");
-					return true;
-				} else {
-					p.sendMessage(main.getPrefix() + "§4Argument non trouvé ! Essayez plutôt :"
-							+ "\n§6true §4ou §6false");
-					return true;
-				}
-
-			} else {
-				p.sendMessage(main.getPrefix() + "§4Paramètre non trouvé ! Essayez plutôt :"
-						+ "\n§6coMsg§4, §6serverName§4, §6customTabList§4, §6seeVanished§4, §6oldPVP§4, §6TNTsEnabled §4ou §6aAdvancedNameTagsTags");
-				return true;
-			}
-
 		}
 	} else if(args[0].equalsIgnoreCase("version")) {
 			p.sendMessage("§4Admin§eCmds§6B §8- §aCustom §4§lM§c§lJ§6§lE§e§lP \n §2Version " + main.version +"\n§aMinecraft version 1.21 or later");

@@ -5,13 +5,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>fr.mattmunich</groupId>
-  <artifactId>AdminCmdsB-MJEP</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>AdminCmdsB</artifactId>
+  <version>1.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>AdminCmdsB-MJEP</name>
+  <name>AdminCmdsB</name>
 
-    <description>Custom made plugin for MJEP based on AdminCmdsB</description>
+    <description>AdminCmdsB Minecraft plugin</description>
     <properties>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -153,10 +153,12 @@ public class Settings {
 
 	public void maintenanceTrue() {
 		config.set("settings.maintenance", true);
+		saveConfig();
 	}
 
 	public void maintenanceFalse() {
 		config.set("settings.maintenance", false);
+		saveConfig();
 	}
 
 	public boolean getMaintenance() {
@@ -165,14 +167,26 @@ public class Settings {
 
 	public void antiCheatTrue() {
 		config.set("settings.anticheat", true);
+		saveConfig();
 	}
 
 	public void antiCheatFalse() {
 		config.set("settings.anticheat", false);
+		saveConfig();
 	}
 
 	public boolean getAntiCheat() {
 		return config.getBoolean("settings.anticheat");
+	}
+
+
+	public void setBackupsEnabled(boolean enabled) {
+		config.set("settings.enableBackups", enabled);
+		saveConfig();
+	}
+
+	public boolean getBackupsEnabled() {
+		return config.getBoolean("settings.enableBackups");
 	}
 
 }

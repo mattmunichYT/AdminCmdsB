@@ -1,5 +1,5 @@
-name: AdminCmdsB--MJEP
-version: 2.1
+name: AdminCmdsB
+version: 1.2
 author: mattmunich
 main: fr.mattmunich.admincmdsb.Main
 api-version: 1.21
@@ -226,21 +226,6 @@ commands:
     aliases:
     - antiastp
     - blockastp
-  noel:
-    description: §6Commande pour aller dans le monde de l'§5Évent de Noël§6 ! §6(§2StaffCmd§6 & §2Players)
-    usage: /noel
-    aliases:
-    - eventnoel
-    - tpnoel
-    - mondenoel
-  survie:
-    description: §6Commande pour aller dans le monde de la §5survie RP §6! §6(§2StaffCmd§6 & §eSRP Members)
-    usage: /noel
-    aliases:
-    - tpsurvie
-    - srptp
-    - mondesurvie
-    - survierp  
   invsee:
     description: §6Commande pour §5voir l'inventaire§6 d'un autre §5joueur§6 ! (§2StaffCmd§6)
     usage: /invsee <Player>
@@ -258,13 +243,6 @@ commands:
     - endersee
     - echestsee
     - openechest
-  paques:
-    description: §6Commande pour aller dans le monde de l'§5Évent de Pâques§6 ! §6(§2StaffCmd§6 & §2Players)
-    usage: /paques
-    aliases:
-    - eventpaques
-    - tppaques
-    - mondepaques
   fakejoin:
     description: §6Commande pour envoyer un §5faux message §6de §5connection §6au serveur ! §6(§cAdmin§4Cmd§6)
     usage: /fakejoin <Player> <Grade>
@@ -278,20 +256,12 @@ commands:
   changeskin:
     description: §6Commande pour §5changer§6 de §5skin§6 ! (§2StaffCmd§6)
     usage: /changeskin <skinName> [target]
-  halloween:
-    description: §6Commande pour aller dans le monde de l'§5Évent de Halloween§6 ! §6(§2StaffCmd§6 & §2Players)
-    usage: /halloween
-    aliases:
-      - eventhalloween
   gm:
     description: §6Commande pour changer de §5GameMode §a§lrapidement§r§6 ! (§2StaffCmd§6)
     usage: /gm <GameMode> [Player]
   test:
-    description: TEST
+    description: §6Commande de test!
     usage: /test
-  civilisation:
-    description: §8§oComming soon...
-    usage: /civilisation
   backup:
     description: §6Forcer le serveur à faire une §5sauvegarde §6des mondes ! §3(§bBuilderCmd§3)
   mutechat:
@@ -305,8 +275,3 @@ commands:
     usage: /armorstand <spawn/addaction/setname/unregister> [actionType/name] [action]
     aliases:
       - as
-  ete:
-    description: §6Commande pour aller dans le monde de l'§5Évent de Été§6 ! §6(§2StaffCmd§6)
-    usage: /ete
-    aliases:
-      - eventete

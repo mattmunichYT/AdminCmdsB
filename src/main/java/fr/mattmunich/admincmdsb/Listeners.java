@@ -98,7 +98,7 @@ public class Listeners implements Listener {
 			main.god.remove(player);
 		}
 
-		PlayerData data = new PlayerData(player.getUniqueId());
+		PlayerData data = new PlayerData(player);
 
 		int x = player.getLocation().getBlockX();
 		int y = player.getLocation().getBlockY();
@@ -238,7 +238,7 @@ public class Listeners implements Listener {
 				p.sendMessage(main.noPermissionMsg);
 				e.setCancelled(true);
 				if (cmd.contains("kick") || cmd.contains("ban")) {
-					PlayerData pdata = new PlayerData(p.getUniqueId());
+					PlayerData pdata = new PlayerData(p);
 					pdata.setTempbanned("Système", "§6Vous ne pouvez pas executer cette commande ! \\n§cUn administateur vous a bloqué l'accès à cette commande.", 30*1000, "30s");
 					p.kickPlayer("§6Vous ne pouvez pas executer cette commande ! \n§cUn administateur vous a bloqué l'accès à cette commande.");
 				}
@@ -265,7 +265,7 @@ public class Listeners implements Listener {
 	public void onPlayerDeath(PlayerDeathEvent e) {
 
 		Player p = e.getEntity();
-		PlayerData data = new PlayerData(p.getUniqueId());
+		PlayerData data = new PlayerData(p);
 
 		int x = p.getLocation().getBlockX();
 		int y = p.getLocation().getBlockY();
@@ -364,7 +364,7 @@ public class Listeners implements Listener {
 		//END SETTING UP MINIGAME ARMORSTAND
 
 		GradeList gradeList = grades.getPlayerGrade(p);
-		PlayerData data = new PlayerData(p.getUniqueId());
+		PlayerData data = new PlayerData(p);
 
 		if (!data.exist()) {
 			p.sendMessage(main.getErrorPrefix()
@@ -636,297 +636,18 @@ public class Listeners implements Listener {
 				ArmorStand as = (ArmorStand) entity;
 				UUID uuid = as.getUniqueId();
 
-				if(asData.isRegistred(as)) {
-					asData.runActions(as,p);
+				if (asData.isRegistred(as)) {
+					asData.runActions(as, p);
 					return;
 				}
-
 
 
 				ASData_OLD asData = new ASData_OLD(uuid);
 				String asName = as.getName();
-
-                //noinspection ConstantValue
-                if (asName == null) {
-					if (main.staff.contains(p)) {
-						p.sendMessage(main.getPrefix() + "§2Mini-jeu fermé/non trouvé !");
-						p.sendTitle("§4§l❌ Fermé", "§r§cLe mini-jeu n'est pas enregitré dans notre liste.", 5, 60, 5);
-						e.setCancelled(true);
-					}
-					return;
-				}
-
-				if (asName.equalsIgnoreCase("Build Battle")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					// tp @p -12.639 91.06250 240.414
-					Location loc = new Location(Bukkit.getWorld("world"), -12.639, 91, 240.414);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Cache Cache")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -259, 39.00, 217, -360, 0);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Capture de Drapeau")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -87.500, 45.06250, -32.300);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Labyrinthe")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -425, 39, 270);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("ForestGump")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -628, 106, 415);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Curling")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -305, 39, 267, 450, 0);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Sumo")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 145, 91, -93);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Speed Horse")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 34, 39, 153);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Rugby")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -174, 39.00, 54, 180, 0);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("SheepShot")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 296, 39, 404);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Tir à l'Arc")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 596, 72, -826, 90, 0);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Chaise Musicale")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 398, 39, -290);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Dé À Coudre")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 397, 118, 290, 90, 0);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Course de Bateau")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 475, 47, -47.399);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Jump")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -37, 76, -127);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Magic Wars")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 217, 39, 206);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("TheBridge")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 169, 108, -152);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Sky Wars")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -136, 42, 96);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("PVP")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -240.449, 62, -77.343);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Pig Battle")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 87, 39, 117);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Tridant Wars")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 67, 137, 410);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Murder Mystery")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -445, 38, 393);
-					p.teleport(loc);
-					e.setCancelled(true);
-                } else if (asName.equalsIgnoreCase("Pêche")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), -211, 40, 584);
-					p.teleport(loc);
-					e.setCancelled(true);
-				} else if (asName.equalsIgnoreCase("The Blitz")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", 5,
-							60, 5);
-					Location loc = new Location(Bukkit.getWorld("world"), 207, 282, 69);
-					p.teleport(loc);
-					e.setCancelled(true);
-				} else if (asName.equalsIgnoreCase("Forest Gump")) {
-					p.sendMessage(main.getPrefix() + "§2Téléportation au mini-jeu §6" + asName + "§2 !");
-					p.sendTitle("§a🚀 Téléportation...", "§r§2Téléportation au mini-jeu §6§l" + asName + "§r§2 !", -628,
-							107, 415);
-					Location loc = new Location(Bukkit.getWorld("world"), -628, 107, 415);
-					p.teleport(loc);
-					e.setCancelled(true);
-
-
-				//EVENTS
-
-                } else if (asName.equalsIgnoreCase("Évent Halloween en Octobre")) {
-//					p.sendMessage(main.getPrefix() + main.hex(
-//							"§cDomage !§4 L'Évent d'#FFC400§lH#FFB500§la#FFA500§ll#FF9600§ll#FF8600§lo#FF7700§lw#FF6700§le#FF5800§le#FF4800§ln§4 n'aura pas lieu cette année... §2Mais le prochain sera en §aOctobre 2024§2 !"));
-//					p.sendTitle("§4❌ Erreur", main.hex(
-//							"§r§cL'Évent d'#FFC400§lH#FFB500§la#FFA500§ll#FF9600§ll#FF8600§lo#FF7700§lw#FF6700§le#FF5800§le#FF4800§ln§c n'est pas §4ouvert au public§c."),
-//							5, 60, 5);
-//					e.setCancelled(true);
-
-					//EVENT
-
-					if (!main.admin.contains(p)) {
-						p.sendMessage(main.getPrefix() + main.hex(
-								"§cDomage !§4 L'Évent d'#FFC400§lH#FFB500§la#FFA500§ll#FF9600§ll#FF8600§lo#FF7700§lw#FF6700§le#FF5800§le#FF4800§ln§4 n'est pas ouvert au public... §2Mais il aura lieu §6fin Octobre 2026§2 !"));
-						p.sendTitle("§4❌ Erreur", main.hex(
-										"§r§cL'Évent d'#FFC400§lH#FFB500§la#FFA500§ll#FF9600§ll#FF8600§lo#FF7700§lw#FF6700§le#FF5800§le#FF4800§ln§c n'est pas §4ouvert au public§c."),
-								5, 60, 5);
-						e.setCancelled(true);
-						return;
-					}
-
-					PotionEffect effect = new PotionEffect(PotionEffectType.BLINDNESS, 3, 255, true, false, false);
-					p.addPotionEffect(effect);
-					p.sendMessage(main.getPrefix() + main.hex(
-							"§2Téléportation à §6l'Évent d'#FFC400§lH#FFB500§la#FFA500§ll#FF9600§ll#FF8600§lo#FF7700§lw#FF6700§le#FF5800§le#FF4800§ln§2 ! §c(§4Accès §5archives§c)"));
-					p.sendTitle("§a🚀 Téléportation...", main.hex(
-							"§r§2Téléportation à §6l'Évent d'#FFC400§lH#FFB500§la#FFA500§ll#FF9600§ll#FF8600§lo#FF7700§lw#FF6700§le#FF5800§le#FF4800§ln§r§2 !"),
-							5, 60, 5);
-					p.chat("/halloween");
-					e.setCancelled(true);
-
-
-                } else if (asName.equalsIgnoreCase("Évent de Pâques en Avril")) {
-					if (!main.admin.contains(p)) {
-						p.sendMessage(main.getPrefix() + main.hex(
-								"§cDomage !§4 L'Évent de #0dff00P#2dff1eA#4dff3cQ#6dff59U#8dff77E#adff95S§4 n'est pas ouvert au public... §2Mais il aura lieu en §aAvril 2026§2 !"));
-						p.sendTitle("§4❌ Erreur", main.hex(
-										"§r§cL'Évent de #0dff00P#2dff1eA#4dff3cQ#6dff59U#8dff77E#adff95S§c n'est pas §4ouvert au public§c."),
-								5, 60, 5);
-						p.sendMessage(main.getPrefix() + main.hex(
-								"§4L'Évent de #0dff00P#2dff1eA#4dff3cQ#6dff59U#8dff77E#adff95S§4 aura lieu en §cAvril 2026 §4!"));
-						e.setCancelled(true);
-						return;
-					}
-
-					PotionEffect effect = new PotionEffect(PotionEffectType.BLINDNESS, 3, 255, true, false, false);
-					p.addPotionEffect(effect);
-					p.sendMessage(main.getPrefix() + main.hex(
-							"§2Téléportation à §6l'Évent de #0dff00P#2dff1eA#4dff3cQ#6dff59U#8dff77E#adff95S§2 ! §c(§4Accès §5archives§c)"));
-					p.sendTitle("§a🚀 Téléportation...", main.hex(
-							"§r§2Téléportation à §6l'Évent de #0dff00P#2dff1eA#4dff3cQ#6dff59U#8dff77E#adff95S§r§2 !"),
-							5, 60, 5);
-					p.chat("/paques");
-					e.setCancelled(true);
-				} else if (asName.equalsIgnoreCase("Évent de l'Été en Juillet")) {
-					p.sendMessage(main.getPrefix() + main.hex(
-							"§cDomage !§4 L'Évent de l'#e3ff00É#edff59T#f6ffb1É§4 n'aura pas lieu cette année... §2Mais le prochain sera en §aJuillet 2025 §2!"));
-					p.sendTitle("§4❌ Erreur",
-							main.hex("§r§cL'Évent de l'#e3ff00É#edff59T#f6ffb1É§c n'est pas §4ouvert au public§c."), 5,
-							60, 5);
-					e.setCancelled(true);
-
-
-
-				} else if (asName.equalsIgnoreCase("Évent Noël en Décembre")) {
-//					p.sendMessage(main.getPrefix() + main.hex(
-//							"§4L'Évent de #ff4848N#ff6b6bO#ff8e8eË#ffb1b1L§4 n'aura pas lieu cette année... §2Mais le prochain aura lieu en §aDécembre 2025 §2!"));
-					if(!main.admin.contains(p)) {
-						p.sendMessage(main.getPrefix() + main.hex("§4L'Évent de #ff4848N#ff6b6bO#ff8e8eË#ffb1b1L§4 n'aura pas lieu cette année... §2Mais le prochain aura lieu en §aDécembre 2025 §2!"));
-						e.setCancelled(true);
-						return;
-					}
-					PotionEffect effect = new PotionEffect(PotionEffectType.BLINDNESS, 3, 255, true, false, false);
-					p.addPotionEffect(effect);
-					p.sendMessage(main.getPrefix() + main.hex("§2Téléportation à §6l'Évent de #ff4848N#ff6b6bO#ff8e8eË#ffb1b1L§2 ! §c(§4Accès §5archives§c)"));
-					p.sendTitle("§a🚀 Téléportation...", main.hex("§r§2Téléportation à §6l'Évent de #ff4848N#ff6b6bO#ff8e8eË#ffb1b1L§r§2 !"), 5, 60, 5);
-					p.chat("/noel");
-					e.setCancelled(true);
-					return;
-				} else {
-					p.sendMessage(main.getPrefix() + "§2Mini-jeu fermé !");
-					p.sendTitle("§4§l❌ Fermé", "§r§cLe mini-jeu §4" + asName + "§c n'est pas encore ouvert au public.",
-							5, 60, 5);
-					e.setCancelled(true);
-                }
-			} catch (Exception ASTPUnkownError) {
-//				ASTPUnkownError.printStackTrace();
-//				p.sendTitle("§4❌ Erreur", "§r§cUne erreur s'est produite lors de l'action.", 5, 60, 5);
-//				p.sendMessage(main.getErrorPrefix() + "§cUne erreur s'est produite lors de l'action, §lmerci de contacter §4mattmunich§c !");
-//				e.setCancelled(true);
-            }
-
+			} catch(Exception e2){
+				main.logError("Une erreur s'est produite lors de l'interaction joueur -> ArmorStand",e2);
+				p.sendMessage(main.errorMsg);
+			}
 		}
 	}
 
@@ -1313,7 +1034,7 @@ public class Listeners implements Listener {
 				invsee.items[52] = refresh;
 				invsee.items[53] = close;
 			} catch (Exception eInvSeeItms) {
-				eInvSeeItms.printStackTrace();
+				main.logError("Impossible d'obtenir l'inventaire du joueur " + target + " (Invsee)",eInvSeeItms);
 			}
 
 			if (!invseepaused) {
@@ -1677,7 +1398,7 @@ public class Listeners implements Listener {
 	public void mye(PlayerTeleportEvent e){
 		Location from = e.getFrom();
 		Player p = e.getPlayer();
-		PlayerData data = new PlayerData(p.getUniqueId());
+		PlayerData data = new PlayerData(p);
 
 		data.getConfig().set("lastPos.x", from.getBlockX());
 		data.getConfig().set("lastPos.y", from.getBlockY());

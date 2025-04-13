@@ -49,9 +49,9 @@ public class MuteCommand implements CommandExecutor {
 
 			Player target = Bukkit.getPlayer(targetName);
 
-			PlayerData data = new PlayerData(target.getUniqueId());
+			PlayerData data = new PlayerData(target);
 
-			data.setMuted(true);
+            data.setMuted(true);
 			String reason = " ";
 			for (int i = 1; i < args.length; i++) {
 				reason = reason + " " + args[i];

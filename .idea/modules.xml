@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/AdminCmdsB-MJEP.iml" filepath="$PROJECT_DIR$/AdminCmdsB-MJEP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AdminCmdsB.iml" filepath="$PROJECT_DIR$/AdminCmdsB.iml" />
     </modules>
   </component>
 </project>

@@ -36,7 +36,7 @@ public class BackCommand implements CommandExecutor {
 			return true;
 		}
 		Player p = (Player)s;
-		PlayerData data = new PlayerData(p.getUniqueId());
+		PlayerData data = new PlayerData(p);
 
 		if(!main.staff.contains(p)) {
 			p.sendMessage(main.getPrefix() + "§4Vous n'avez pas la permission d'utiliser cette commande !");

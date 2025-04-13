@@ -15,7 +15,7 @@ public class PlayerLoginEvent_Ban implements Listener {
 
 		Player p = e.getPlayer();
 
-		PlayerData data = new PlayerData(p.getUniqueId());
+		PlayerData data = new PlayerData(p);
 
 		if (!data.exist() || !data.isBanned()) {
 			return;

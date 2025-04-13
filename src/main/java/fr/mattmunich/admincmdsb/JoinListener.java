@@ -50,13 +50,9 @@ public class JoinListener implements Listener{
 	public void onJoin(PlayerJoinEvent event) throws IOException {
 
 		Player player = event.getPlayer();
-		PlayerData data = null;
-		try {
-			data = new PlayerData(Utility.getUUIDFromName(player.getName()));
-		} catch(Exception e) {
-			Bukkit.getConsoleSender().sendMessage("Hmm... Coulnd't get " + player.getName() + "'s PlayerData using event.getPlayer()");
-		}
+		PlayerData data = new PlayerData(player);
 
+		//get main world spawn
 		Properties props = new Properties();
 		props.load(Files.newInputStream(Paths.get("server.properties")));
 

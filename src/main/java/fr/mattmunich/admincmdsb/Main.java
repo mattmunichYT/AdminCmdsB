@@ -60,8 +60,12 @@ public class Main extends JavaPlugin {
 		return (getConfig().getString(path) == null ? defaultMessage : (getConfig().getString(path).contains(var1) ? (getConfig().getString(path).contains(var2) ? getConfig().getString(path).replace(var1, replacement1).replace(var2, replacement2) : getConfig().getString(path).replace(var1, replacement1)) : getConfig().getString(path)));
 	}
 
+	public void logError(String message,Exception error) {
+		Bukkit.getConsoleSender().sendMessage(prefix + "§4" + hex(message) + " because of §eerror: \n§r" + error + Arrays.toString(error.getStackTrace()).replace(",", ",\n"));
+	}
+
 	//Version
-	public String version = "2.0";
+	public String version = "1.2";
 	//
 	public double serverVersion = VersionChecker.getVersion();
 
@@ -200,7 +204,7 @@ public class Main extends JavaPlugin {
 		ban.initConfig();
 		events = new Events(this);
 		events.initConfig();
-		pdata = new PlayerData(this);
+		pdata = new PlayerData(this,this);
 		asdata = new ASData(this,this);
 		asdata.initConfig();
 		settings = new Settings(this);
@@ -208,7 +212,7 @@ public class Main extends JavaPlugin {
 		invsee = new InvSeeCommand(this);
 		warp = new Warp(this, this, grades);
 		warp.initConfig();
-		backup = new Backup(this);
+		backup = new Backup(this,this);
 		old_asdata = new ASData_OLD(this);
 		saveDefaultConfig();
 	}
@@ -249,13 +253,13 @@ public class Main extends JavaPlugin {
 		grades.initConfig();
 		ban = new Ban(this);
 		events = new Events(this);
-		pdata = new PlayerData(this);
+		pdata = new PlayerData(this,this);
 		asdata = new ASData(this,this);
 		asdata.initConfig();
 		settings = new Settings(this);
 		invsee = new InvSeeCommand(this);
 		warp = new Warp(this, this, grades);
-		backup = new Backup(this);
+		backup = new Backup(this,this);
 		old_asdata = new ASData_OLD(this);
 		warp.initConfig();
 		saveDefaultConfig();
@@ -324,11 +328,6 @@ public class Main extends JavaPlugin {
 		getCommand("luckyblock").setExecutor(new LuckyBCommand(this));
 		getCommand("bypassastp").setExecutor(new AntiASTPCommand(this));
 		getCommand("event").setExecutor(new EventsCommand(this, events, grades, warp));
-		getCommand("noel").setExecutor(new NoelCommand(this));
-		getCommand("paques").setExecutor(new PaquesCommand(this));
-		getCommand("halloween").setExecutor(new HalloweenCommand(this));
-		getCommand("ete").setExecutor(new EventEteCommand(this));
-		getCommand("survie").setExecutor(new SRP_TPCommand(this));
 		getCommand("invsee").setExecutor(new ClassicInvSeeCommand(this, grades));
 		getCommand("ecsee").setExecutor(new EcSeeCommand(this, grades));
 		getCommand("fakejoin").setExecutor(new FakeJoinCommand(this, grades, settings));
@@ -336,7 +335,6 @@ public class Main extends JavaPlugin {
 		getCommand("changeskin").setExecutor(new ChangeSkinCommand(this, skinmanager));
 		getCommand("gm").setExecutor(new GameModeCommand(this));
 		getCommand("test").setExecutor(new TestCommand(this));
-		getCommand("civilisation").setExecutor(new CivilisationCommand(this));
 		getCommand("backup").setExecutor(new BackupCommand(this,backup));
 		getCommand("mutechat").setExecutor(new MuteChatCommand(this));
 		getCommand("armorstand").setExecutor(new ASCommand(this,asdata));

@@ -6,32 +6,39 @@ import java.text.SimpleDateFormat;
 import java.util.Objects;
 import java.util.UUID;
 
+import fr.mattmunich.admincmdsb.Main;
+import fr.mattmunich.admincmdsb.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import fr.mattmunich.admincmdsb.Utility;
-
 
 
 public final class PlayerData {
 
 	private final Plugin plugin;
+	private Main main;
 
 	private FileConfiguration config;
 	private File file;
+	private Player p;
 
 
 	@SuppressWarnings("unused")
 	private UUID uuid;
 
-	public PlayerData(Plugin plugin) {
+	public PlayerData(Plugin plugin, Main main) {
 		this.plugin = plugin;
+		this.main = main;
+	}
+
+	private void logError(String message, Exception error){
+		main.logError(message, error);
 	}
 
 	File f = new File("plugins/AdminCmdsB/PlayerData");
-	public PlayerData(UUID uuid){
+	public PlayerData(Player p){
 		if(!f.exists()) {
 			f.mkdirs();
 		}
@@ -39,28 +46,41 @@ public final class PlayerData {
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
-			} catch (IOException e) { e.printStackTrace();}
+			} catch (Exception e) { logError("Couldn't create PlayerData file", e); }
 		}
 		new YamlConfiguration();
 		config = YamlConfiguration.loadConfiguration(file);
 		this.plugin = getPlugin();
-		this.uuid = uuid;
-		try {
-			if(Utility.getNameFromUUID(uuid).equalsIgnoreCase("#://error") || Utility.getNameFromUUID(uuid) == null) {
-				Bukkit.getConsoleSender().sendMessage("Error while getting player with UUID");
-				return;
-			}
-		} catch (NullPointerException e) {
-			Bukkit.getConsoleSender().sendMessage("Error while getting player with UUID, NullPointerException");
-			return;
-		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage("Error while getting player with UUID");
-			e.printStackTrace();
-			return;
+		this.uuid = p.getUniqueId();
+
+		String pName = p.getName();
+		config.set("name", pName);
+		saveConfig();
+	}
+
+	public PlayerData(UUID uuid) throws Exception{
+		if(!f.exists()) {
+			f.mkdirs();
+		}
+		file = new File(f, uuid.toString() + ".yml");
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (Exception e) { logError("Couldn't create PlayerData file", e); }
+		}
+		new YamlConfiguration();
+		config = YamlConfiguration.loadConfiguration(file);
+		this.plugin = getPlugin();
+		this.p = Bukkit.getPlayer(uuid);
+		if(Utility.getNameFromUUID(uuid) == null) {
+			throw new Exception("Error while getting player with UUID");
 		}
 
 		String pName = Utility.getNameFromUUID(uuid);
-		config.set("name", pName);
+		config.set("player.name", pName);
+		if(config.getString("player.rank") == null) {
+			config.set("player.rank", "membre");
+		}
 		saveConfig();
 	}
 
@@ -68,7 +88,7 @@ public final class PlayerData {
 		return file.exists();
 	}
 
-	public final Plugin getPlugin(){
+	public Plugin getPlugin(){
 		return plugin;
 	}
 
@@ -211,7 +231,7 @@ public final class PlayerData {
 		}catch(IOException ioe) { ioe.printStackTrace();}
 	}
 
-	public boolean haveHomes(){
+	public boolean hasHomes(){
 		if(getConfig().getString("home.list") != null) {
 			return true;
 		}else {
@@ -223,7 +243,7 @@ public final class PlayerData {
 		if(getConfig().getString("home.list") != null) {
 			String homes = getConfig().get("home.list").toString();
 			return homes;
-		}else {
+		} else {
 			return "";
 		}
 	}

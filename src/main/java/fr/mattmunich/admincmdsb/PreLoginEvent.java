@@ -14,9 +14,14 @@ public class PreLoginEvent implements Listener {
 		String pname = e.getName();
 		String pUUID = e.getUniqueId().toString();
 		String pIP = e.getAddress().getHostAddress();
-		PlayerData data = new PlayerData(Utility.getUUIDFromName(pname));
+        PlayerData data = null;
+        try {
+            data = new PlayerData(Utility.getUUIDFromName(pname));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
 
-		if(data.changedIP(pIP)) {
+        if(data.changedIP(pIP)) {
 			Bukkit.getConsoleSender().sendMessage("§e[§4§lAnti§0-§6§lVPN§e] §5§l" + pname + " §6has changed IP from §a§l" + data.getStoredIP() + "§6 to §c§l" + pIP + "§6 !");
 		}
 

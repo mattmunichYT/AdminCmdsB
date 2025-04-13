@@ -212,7 +212,6 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 							+ "§2Durée §o(en ms)§r§2 : §6" + duration + "\n");
 					return true;
 				} catch (Exception e) {
-					Bukkit.getConsoleSender().sendMessage(main.getErrorPrefix() + "§cGot error : §4\n" + e);
 					p.sendMessage(main.getPrefix() + "§2----------- §6§lEvents :§4§l Erreur  §r§2-----------§r\n"
 							+ "§cUne erreure est survenue lors de la création de \n"
 							+ "l'événement avec les paramètres suivants : \n"
@@ -221,7 +220,7 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 							+ "§2Date de début : §6" + startDate + "\n"
 							+ "§2Durée §o(en minutes)§r§2 : §6" + duration/1000/60 + "\n");
 
-					e.printStackTrace();
+					main.logError("Une erreur est survenue lors de la création d'un événement", e);
 					return true;
 				}
 
@@ -378,7 +377,7 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 						return true;
 					} catch (Exception e) {
 						p.sendMessage(main.getErrorPrefix() + "Une erreur s'est produite lors de la modification de la date de l'event !");
-						e.printStackTrace();
+						main.logError("Une erreur s'est produite lors de la modification de la date de l'event",e);
 						return true;
 					}
 				} else {
@@ -391,7 +390,7 @@ public class EventsCommand implements CommandExecutor, TabCompleter{
 					return true;
 				}
 				if(events.exist(args[2])) {
-					String eventName = args[2].toString();
+					String eventName = args[2];
 					if(!events.isCanceled(eventName)) {
 						p.sendMessage(main.getPrefix() + "§4Veuillez annuler l'événement avant de le supprimer !");
 						return true;
