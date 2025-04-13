@@ -5,7 +5,7 @@
 ### *Quick description*
 > This plugin adds quite a lot of commands to help you to manage and administrate your server !
 ### *Some commands/tools it adds*
-> AdminCmdsB adds the classic commands to help you to manage your server like `/ban`, `/mute`, `/freeze`, and some other useful commands (click on *More commands/tools* bellow)
+> AdminCmdsB adds the classic commands to help you to manage your server like `/ban`, `/mute`, `/freeze`, and some other useful commands (see on *Commands/tools* bellow)
 ### *More information*
 - If you want to **use my code** please contact me (see *Contact me* bellow)
 - If you would like to make a **suggestion** don't be shy and please contact me ! (see *Contact me* bellow)
