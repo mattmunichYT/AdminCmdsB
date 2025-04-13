@@ -17,7 +17,7 @@
 > - By discovering an other way I guess ?...
 
 <details>
-<summary>More commands/tools</summary>
+### Commands/tools
 
 ### Administration and managing commands/tools
 <details>
