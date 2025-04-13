@@ -16,8 +16,7 @@
 > - Using Discord : `mattmunich`
 > - By discovering an other way I guess ?...
 
-<details>
-### Commands/tools
+## Commands/tools
 
 ### Administration and managing commands/tools
 <details>
